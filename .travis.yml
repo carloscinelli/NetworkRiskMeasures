@@ -3,3 +3,18 @@
 language: r
 warnings_are_errors: false
 sudo: required
+
+env:
+ global:
+   - CRAN: http://cran.rstudio.com
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+
+r_packages:
+  - covr
+
+after_success:
+  - Rscript -e 'covr::codecov()'
