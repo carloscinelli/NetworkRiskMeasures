@@ -197,7 +197,7 @@ print.DebtRankShock <- function(x, n = 5, ...){
   cat("Additional defaulted entities:", x$DebtRank$additional_defaults, "\n")
   cat("\nStress Levels:", "\n")
   StressLevel <- x$StressLevel
-  names(StressLevel) <- c("Vetex Name", "Vertex Weight", "Initial Stress", "Final Stress", "Diff Stress")
+  names(StressLevel) <- c("Vertex Name", "Vertex Weight", "Initial Stress", "Final Stress", "Diff Stress")
   print(head(StressLevel, n))
   m <- nrow(StressLevel)
   if(m > n) cat("--", m - n,"rows omitted.")
