@@ -41,6 +41,12 @@ rownames(assets_matrix) <- colnames(assets_matrix) <- letters[1:3]
 ## Capital Buffer
 buffer <- c(a = 2, b = 5, c = 2)
 
+## Measures based on the communicability matrix
+## Impact Susceptibility, Fluidity and Diffusion
+impact_susceptibility(assets_matrix, buffer)
+impact_fluidity(assets_matrix, buffer)
+impact_diffusion(assets_matrix, buffer)
+
 ## "Size" of the nodes
 weights <-  c(a = 10, b = 100, c = 30)
 
