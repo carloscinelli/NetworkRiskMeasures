@@ -14,7 +14,7 @@ debt_rank_shock(exposures, capital_buffer, shock_vector, weights = rep(1,
   "liabilities", "vulnerability"), max.it = 100, abs.tol = 1e-09)
 }
 \arguments{
-\item{exposures}{an adjacency \code{\link{matrix}} or an \code{\link{igraph}}
+\item{exposures}{an adjacency \code{\link{matrix}} or an \code{\link[igraph]{igraph}}
 object with the network of bilateral exposures between vertices. By default, the function
 expects the exposures in the form of an assets matrix
 in which A -> B means that A has an asset with B. However, you can

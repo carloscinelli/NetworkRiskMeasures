@@ -7,7 +7,7 @@
 communicability_matrix(x, terms = Inf, sparse = TRUE)
 }
 \arguments{
-\item{x}{a \code{\link{matrix}} or an \code{\link{igraph}} object.}
+\item{x}{a \code{\link{matrix}} or an \code{\link[igraph]{igraph}} object.}
 
 \item{terms}{truncates the communicability matrix evaluation to the number of terms.
 If \code{Inf} it calculates the matrix exponential using \code{\link{expm}}.}

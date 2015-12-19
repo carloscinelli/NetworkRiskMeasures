@@ -19,7 +19,7 @@ impact_diffusion(exposures, capital_buffer, weights = NULL, terms = Inf,
   "vulnerability"))
 }
 \arguments{
-\item{exposures}{an adjacency \code{\link{matrix}} or an \code{\link{igraph}}
+\item{exposures}{an adjacency \code{\link{matrix}} or an \code{\link[igraph]{igraph}}
 object with the network of bilateral exposures between vertices. By default, the function
 expects the exposures in the form of an assets matrix
 in which A -> B means that A has an asset with B. However, you can

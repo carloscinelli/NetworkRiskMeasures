@@ -187,7 +187,9 @@ debt_rank_shock <- function(exposures,
 }
 
 
+
 ##' @export
+##' @method print DebtRankShock
 print.DebtRankShock <- function(x, n = 5, ...){
   cat("\n")
   cat("Shock causes additional stress of", paste0(round(x$DebtRank$additional_stress, 4)*100, "%"),
@@ -203,7 +205,18 @@ print.DebtRankShock <- function(x, n = 5, ...){
   cat("\n")
 }
 
+## Print methods for DebtRank
+## 
+## The \code{print} method for \code{DebtRank} and \code{DebtRankShock} objects.
+## 
+## @param x a \code{DebtRank} and \code{DebtRankShock} object.
+## @param n how many rows to show. Default is 5.
+## @param ... further arguments passed to or from other methods.
+## @return \code{NULL}.
+## @importFrom expm balance
+## 
 ##' @export
+##' @method print DebtRank
 print.DebtRank <- function(x, n = 5, ...){
   DebtRank <- x$DebtRank
   DebtRank <- DebtRank[order(DebtRank$additional_stress, decreasing = TRUE), ]
