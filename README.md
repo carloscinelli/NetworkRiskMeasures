@@ -41,30 +41,6 @@ rownames(assets_matrix) <- colnames(assets_matrix) <- letters[1:3]
 ## Capital Buffer
 buffer <- c(a = 2, b = 5, c = 2)
 
-## Measures based on the communicability matrix
-## Impact Susceptibility, Fluidity and Diffusion
-impact_susceptibility(assets_matrix, buffer)
-```
-
-    ##    a    b    c 
-    ## 0.00 1.00 1.25
-
-``` r
-impact_fluidity(assets_matrix, buffer)
-```
-
-    ## [1] 0.75
-
-``` r
-impact_diffusion(assets_matrix, buffer)
-```
-
-    ##   vertex start intermediate total
-    ## 1      a  1.25          0.0  1.25
-    ## 2      b  1.00          0.5  1.50
-    ## 3      c  0.00          0.0  0.00
-
-``` r
 ## "Size" of the nodes
 weights <-  c(a = 10, b = 100, c = 30)
 
@@ -96,3 +72,27 @@ debt_rank_shock(assets_matrix, buffer, shock, weights)
     ## 3          c    0.21428571            0.1         0.30        0.20
     ## 
     ## A stress level of 1 means default.
+
+``` r
+## Measures based on the communicability matrix
+## Impact Susceptibility, Fluidity and Diffusion
+impact_susceptibility(assets_matrix, buffer)
+```
+
+    ##    a    b    c 
+    ## 0.00 1.00 1.25
+
+``` r
+impact_fluidity(assets_matrix, buffer)
+```
+
+    ## [1] 0.75
+
+``` r
+impact_diffusion(assets_matrix, buffer)
+```
+
+    ##   vertex start intermediate total
+    ## 1      a  1.25          0.0  1.25
+    ## 2      b  1.00          0.5  1.50
+    ## 3      c  0.00          0.0  0.00
