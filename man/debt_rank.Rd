@@ -46,7 +46,7 @@ it can be a (binary) "vulnerability" matrix (where A -> B indicates the relative
 \item{abs.tol}{the absolute convergence tolerance. Default is 1e-9.}
 }
 \value{
-The \code{debt_rank} function returns an objet of class \code{DebtRank}, which is a list containing:
+The \code{debt_rank} function returns an object of class \code{DebtRank}, which is a list containing:
 \item{DebtRank}{a \code{data.frame} with the additional stress level and additional defaulted entities caused by each stressed vertex.}
 \item{StressLevel}{a \code{data.frame} with the initial, final and additional stress level for each other vertex caused
 by the stressed vertex.}
@@ -60,8 +60,7 @@ by the shock vector.}
 The \code{debt_rank} function computes the DebtRank, additional defaults and the
 differences in stress levels caused by each vertex of the network
 when considering its default.
-}
-\details{
+
 You can also use the auxiliary function \code{debt_rank_shock} to
 simulate arbitrary shocks in the network.
 }
@@ -74,8 +73,8 @@ rownames(assets_matrix) <- colnames(assets_matrix) <- letters[1:3]
 ## Capital Buffer
 buffer <- c(a = 2, b = 5, c = 2)
 
-## "Size" of nodes
-weights <-  rowSums(assets_matrix)
+## "Size" of the nodes
+weights <-  c(a = 10, b = 100, c = 30)
 
 # DebtRank - computes stress for each node considering its default
 debt_rank(assets_matrix, buffer, weights)
