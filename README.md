@@ -68,10 +68,10 @@ debt_rank_shock(assets_matrix, buffer, shock, weights)
     ## Additional defaulted entities: 0 
     ## 
     ## Stress Levels: 
-    ##   Vetex Name Vertex Weight Initial Stress Final Stress Diff Stress
-    ## 1          a    0.07142857            0.1         0.15        0.05
-    ## 2          b    0.71428571            0.1         0.26        0.16
-    ## 3          c    0.21428571            0.1         0.30        0.20
+    ##   Vertex Name Vertex Weight Initial Stress Final Stress Diff Stress
+    ## 1           a    0.07142857            0.1         0.15        0.05
+    ## 2           b    0.71428571            0.1         0.26        0.16
+    ## 3           c    0.21428571            0.1         0.30        0.20
     ## 
     ## A stress level of 1 means default.
 
