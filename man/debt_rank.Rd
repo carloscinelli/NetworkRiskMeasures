@@ -44,6 +44,8 @@ it can be a (binary) "vulnerability" matrix (where A -> B indicates the relative
 \item{max.it}{the maximum number of iterations. Default is 100.}
 
 \item{abs.tol}{the absolute convergence tolerance. Default is 1e-9.}
+
+\item{shock_vector}{a numeric vector indicating the stress shock (between 0 and 1) for each vertex.}
 }
 \value{
 The \code{debt_rank} function returns an object of class \code{DebtRank}, which is a list containing:

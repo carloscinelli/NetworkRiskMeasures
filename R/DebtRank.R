@@ -92,6 +92,7 @@ debt_rank <- function(exposures,
   return(results)
 }
 
+##' @param shock_vector a numeric vector indicating the stress shock (between 0 and 1) for each vertex.
 ##' @return The \code{debt_rank_shock} function returns a object of class \code{DebtRankShock}, which is list containing:
 ##' \item{DebtRank}{a \code{data.frame} with the additional stress level and additional defaulted entities caused by the shock vector.}
 ##' \item{StressLevel}{a \code{data.frame} with the initial, final and additional stress level for each vertex caused
