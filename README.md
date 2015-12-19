@@ -11,7 +11,7 @@ The package will soon be on CRAN. We are still implementing some unit testing.
 How to install the development version from GitHub
 --------------------------------------------------
 
-To install the GitHub version you need to have the package `devtools` installed. Make sure to set the option `build_vignettes = TRUE` to compile the package vignette (which is not available yet).
+To install the GitHub version you need to have the package `devtools` installed. Make sure to set the option `build_vignettes = TRUE` to compile the package vignette (but it is not available yet).
 
 ``` r
 # install.packages("devtools") # run this to install the devtools package
