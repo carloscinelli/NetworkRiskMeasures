@@ -30,11 +30,8 @@ To be expanded.
 
 ``` r
 library(NetworkRiskMeasures)
-```
+#> Loading required package: Matrix
 
-    ## Loading required package: Matrix
-
-``` r
 # Creating example data
 ## Assets Matrix (bilateral exposures)
 assets_matrix <- matrix(c(0, 10, 3, 1, 0, 2, 0, 3, 0), ncol = 3)
@@ -48,53 +45,38 @@ weights <-  c(a = 10, b = 100, c = 30)
 
 # DebtRank - computes stress for each node considering its default
 debt_rank(assets_matrix, buffer, weights)
-```
+#> 
+#> DebtRank (decreasing order):
+#>   Stressed Vertex Additional Stress Number of Additional Defaults
+#> 1               a         0.9285714                             2
+#> 3               c         0.6642857                             0
+#> 2               b         0.2500000                             1
 
-    ## 
-    ## DebtRank (decreasing order):
-    ##   Stressed Vertex Additional Stress Number of Additional Defaults
-    ## 1               a         0.9285714                             2
-    ## 3               c         0.6642857                             0
-    ## 2               b         0.2500000                             1
-
-``` r
 # Arbitray shock -- 10% stress shock in each node
 shock <- c(a = 0.1, b = 0.1, c = 0.1)
 debt_rank_shock(assets_matrix, buffer, shock, weights)
-```
+#> 
+#> Shock causes additional stress of 16.07% in the network. 
+#> Additional defaulted entities: 0 
+#> 
+#> Stress Levels: 
+#>   Vertex Name Vertex Weight Initial Stress Final Stress Diff Stress
+#> 1           a    0.07142857            0.1         0.15        0.05
+#> 2           b    0.71428571            0.1         0.26        0.16
+#> 3           c    0.21428571            0.1         0.30        0.20
+#> 
+#> A stress level of 1 means default.
 
-    ## 
-    ## Shock causes additional stress of 16.07% in the network. 
-    ## Additional defaulted entities: 0 
-    ## 
-    ## Stress Levels: 
-    ##   Vertex Name Vertex Weight Initial Stress Final Stress Diff Stress
-    ## 1           a    0.07142857            0.1         0.15        0.05
-    ## 2           b    0.71428571            0.1         0.26        0.16
-    ## 3           c    0.21428571            0.1         0.30        0.20
-    ## 
-    ## A stress level of 1 means default.
-
-``` r
 ## Measures based on the communicability matrix
 ## Impact Susceptibility, Fluidity and Diffusion
 impact_susceptibility(assets_matrix, buffer)
-```
-
-    ##    a    b    c 
-    ## 0.00 1.00 1.25
-
-``` r
+#>    a    b    c 
+#> 0.00 1.00 1.25
 impact_fluidity(assets_matrix, buffer)
-```
-
-    ## [1] 0.75
-
-``` r
+#> [1] 0.75
 impact_diffusion(assets_matrix, buffer)
+#>   vertex start intermediate total
+#> 1      a  1.25          0.0  1.25
+#> 2      b  1.00          0.5  1.50
+#> 3      c  0.00          0.0  0.00
 ```
-
-    ##   vertex start intermediate total
-    ## 1      a  1.25          0.0  1.25
-    ## 2      b  1.00          0.5  1.50
-    ## 3      c  0.00          0.0  0.00

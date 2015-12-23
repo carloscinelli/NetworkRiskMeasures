@@ -8,6 +8,15 @@ output:
 [![Travis-CI Build Status](https://travis-ci.org/carloscinelli/NetworkRiskMeasures.svg?branch=master)](https://travis-ci.org/carloscinelli/NetworkRiskMeasures)
 [![Coverage Status](https://img.shields.io/codecov/c/github/carloscinelli/NetworkRiskMeasures/master.svg)](https://codecov.io/github/carloscinelli/NetworkRiskMeasures?branch=master)
 
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+
+```
+
 The Network Risk Measures (`NetworkRiskMeasures`) package implements some risk measures for (financial) networks, such as DebtRank, Impact Susceptibility, Impact Diffusion and Impact Fluidity. 
 
 ## CRAN
