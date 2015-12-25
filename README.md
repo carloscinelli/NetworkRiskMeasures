@@ -32,7 +32,7 @@ To be expanded.
 library(NetworkRiskMeasures)
 #> Loading required package: Matrix
 
-# Creating example data
+# Creating simple example data
 ## Assets Matrix (bilateral exposures)
 assets_matrix <- matrix(c(0, 10, 3, 1, 0, 2, 0, 3, 0), ncol = 3)
 rownames(assets_matrix) <- colnames(assets_matrix) <- letters[1:3]
@@ -44,13 +44,27 @@ buffer <- c(a = 2, b = 5, c = 2)
 weights <-  c(a = 10, b = 100, c = 30)
 
 # DebtRank - computes stress for each node considering its default
-debt_rank(assets_matrix, buffer, weights)
+dr <- debt_rank(assets_matrix, buffer, weights)
+dr
 #> 
 #> DebtRank (decreasing order):
-#>   Stressed Vertex Additional Stress Number of Additional Defaults
-#> 1               a         0.9285714                             2
-#> 3               c         0.6642857                             0
-#> 2               b         0.2500000                             1
+#>   Stressed Vertex Vertex Weight Additional Stress
+#> 1               a    0.07142857         0.9285714
+#> 3               c    0.21428571         0.6642857
+#> 2               b    0.71428571         0.2500000
+#>   Number of Additional Defaults
+#> 1                             2
+#> 3                             0
+#> 2                             1
+
+# Experimental plot (with ggplot2)
+p <- plot(dr)
+p
+```
+
+![](README-unnamed-chunk-3-1.png)
+
+``` r
 
 # Arbitray shock -- 10% stress shock in each node
 shock <- c(a = 0.1, b = 0.1, c = 0.1)

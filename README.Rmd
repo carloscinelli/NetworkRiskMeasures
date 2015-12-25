@@ -44,7 +44,7 @@ To be expanded.
 ```{r}
 library(NetworkRiskMeasures)
 
-# Creating example data
+# Creating simple example data
 ## Assets Matrix (bilateral exposures)
 assets_matrix <- matrix(c(0, 10, 3, 1, 0, 2, 0, 3, 0), ncol = 3)
 rownames(assets_matrix) <- colnames(assets_matrix) <- letters[1:3]
@@ -56,7 +56,12 @@ buffer <- c(a = 2, b = 5, c = 2)
 weights <-  c(a = 10, b = 100, c = 30)
 
 # DebtRank - computes stress for each node considering its default
-debt_rank(assets_matrix, buffer, weights)
+dr <- debt_rank(assets_matrix, buffer, weights)
+dr
+
+# Experimental plot (with ggplot2)
+p <- plot(dr)
+p
 
 # Arbitray shock -- 10% stress shock in each node
 shock <- c(a = 0.1, b = 0.1, c = 0.1)

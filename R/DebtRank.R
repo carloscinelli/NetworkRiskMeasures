@@ -60,6 +60,7 @@ debt_rank <- function(exposures,
                       abs.tol = 1e-9){
 
   exposures <- exposures[,]
+  weights <- weights/sum(weights)
   exposures <- rowcolnames(exposures)
   zeroes <- numeric(nrow(exposures))
   scenarios <- list()
@@ -75,7 +76,9 @@ debt_rank <- function(exposures,
                                                      max.it = max.it,
                                                      abs.tol = abs.tol)
   }
-  DebtRank <- data.frame(stressed_vertex = names(scenarios), stringsAsFactors = FALSE)
+  DebtRank <- data.frame(stressed_vertex = names(scenarios),
+                         vertex_weight = weights,
+                         stringsAsFactors = FALSE)
   DebtRank <- cbind(DebtRank, do.call("rbind", lapply(scenarios, function(x) x$DebtRank)))
   row.names(DebtRank) <- NULL
 
@@ -220,7 +223,7 @@ print.DebtRankShock <- function(x, n = 5, ...){
 print.DebtRank <- function(x, n = 5, ...){
   DebtRank <- x$DebtRank
   DebtRank <- DebtRank[order(DebtRank$additional_stress, decreasing = TRUE), ]
-  names(DebtRank) <- c("Stressed Vertex", "Additional Stress", "Number of Additional Defaults")
+  names(DebtRank) <- c("Stressed Vertex","Vertex Weight", "Additional Stress", "Number of Additional Defaults")
   cat("\nDebtRank (decreasing order):\n")
   print(head(DebtRank, n))
   m <- nrow(DebtRank)
@@ -228,5 +231,54 @@ print.DebtRank <- function(x, n = 5, ...){
   cat("\n")
 }
 
+##' @export
+##' @import ggplot2
+plot.DebtRank <- function(x, 
+                          text_nudge = 0.05, 
+                          text_size = 4,
+                          text_color = "black",
+                          check_overlap = TRUE,
+                          square = TRUE, ...
+                          ){
+  dr <- x$DebtRank
+  
+  # Base plot
+  p <- ggplot(dr, aes_string("vertex_weight", 
+               "additional_stress", 
+               label = "stressed_vertex")) + geom_point() +
+  xlab("\nRelative Weight") +
+  ylab("DebtRank\n") +
+  ggtitle("DebtRank vs Relative Weight\n")
+  
+  # square
+  if (square){
+    p <- p + xlim(0,1) + 
+      ylim(0,1) + 
+      geom_abline(intercept = 0, slope = 1, lty = 2, color = "grey") +
+      coord_fixed()
+  }
+  
+  # texts
+  p <- p + geom_text(nudge_y = text_nudge, 
+            check_overlap = check_overlap, 
+            size = text_size,
+            color = text_color)
+  
+  # additional defaults
+  p <- p %+% aes_string(color = "additional_defaults") +
+    scale_colour_gradient(name = "Additional\nDefaults", 
+                          low = "green",
+                          high = "red")
+    
+  # theme
+  p <- p + theme_minimal() + 
+    theme(legend.position = "bottom",
+          plot.title = element_text(family = "Times", face = "bold"), 
+          axis.title = element_text(family = "Times"),
+          axis.text = element_text(family = "Times"),
+          legend.title = element_text(family = "Times", face = "italic"),
+          legend.text = element_text(family = "Times", face = "italic"))
+  return(p)
+}
 
 

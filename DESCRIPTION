@@ -13,5 +13,6 @@ Suggests: testthat, igraph
 Depends:
     Matrix
 Imports:
-    expm
+    expm,
+    ggplot2
 RoxygenNote: 5.0.1

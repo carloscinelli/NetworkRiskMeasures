@@ -2,6 +2,7 @@
 
 S3method(communicability_matrix,default)
 S3method(communicability_matrix,igraph)
+S3method(plot,DebtRank)
 S3method(print,DebtRank)
 S3method(print,DebtRankShock)
 S3method(vulnerability_matrix,default)
@@ -15,4 +16,5 @@ export(impact_fluidity)
 export(impact_susceptibility)
 export(vulnerability_matrix)
 import(Matrix)
+import(ggplot2)
 importFrom(expm,balance)
