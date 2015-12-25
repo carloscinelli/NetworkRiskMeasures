@@ -5,9 +5,9 @@
 \alias{debt_rank_shock}
 \title{DebtRank of the vertices}
 \usage{
-debt_rank(exposures, capital_buffer, weights = rep(1, nrow(exposures)),
-  binary = FALSE, exposure_type = c("assets", "liabilities",
-  "vulnerability"), max.it = 100, abs.tol = 1e-09)
+debt_rank(exposures, capital_buffer, weights, binary = FALSE,
+  exposure_type = c("assets", "liabilities", "vulnerability"), max.it = 100,
+  abs.tol = 1e-09)
 
 debt_rank_shock(exposures, capital_buffer, shock_vector, weights = rep(1,
   nrow(exposures)), binary = FALSE, exposure_type = c("assets",

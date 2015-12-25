@@ -49,48 +49,59 @@
 ##' Battiston, S.; Puliga, M.; Kaushik, R.; Tasca, P.; Caldarelli, G. (2012).
 ##' DebtRank: Too central to fail? Financial Networks, the FED and systemic risk.
 ##' Scientific Reports, 2:541.
-##'
+##' @import dplyr
 ##' @export
 debt_rank <- function(exposures,
                       capital_buffer,
-                      weights = rep(1, nrow(exposures)),
+                      weights,
                       binary = FALSE,
                       exposure_type = c("assets", "liabilities", "vulnerability"),
                       max.it = 100,
                       abs.tol = 1e-9){
-
-  exposures <- exposures[,]
+  
   weights <- weights/sum(weights)
-  exposures <- rowcolnames(exposures)
-  zeroes <- numeric(nrow(exposures))
-  scenarios <- list()
-  for (i in 1:nrow(exposures)) {
+  names(weights) <- NULL
+  
+  v <- vulnerability_matrix(exposures,
+                            capital_buffer,
+                            binary = binary,
+                            exposure_type = exposure_type)
+  
+  
+  n <- nrow(v)
+  zeroes <- numeric(n)
+  
+  scenarios <- setNames(vector(mode = "list", length = n), rownames(v))
+  
+  for (i in 1:n) {
     shock <- zeroes
     shock[i] <- 1
-    scenarios[[rownames(exposures)[i]]] <- debt_rank_shock(exposures = exposures,
-                                                     capital_buffer = capital_buffer,
-                                                     shock_vector = shock,
-                                                     weights = weights,
-                                                     binary = binary,
-                                                     exposure_type = exposure_type,
-                                                     max.it = max.it,
-                                                     abs.tol = abs.tol)
+    scenarios[[i]] <- .debt_rank_shock(v = v,
+                                       shock_vector = shock,
+                                       weights = weights,
+                                       binary = binary,
+                                       exposure_type = "vulnerability",
+                                       max.it = max.it,
+                                       abs.tol = abs.tol)
   }
-  DebtRank <- data.frame(stressed_vertex = names(scenarios),
-                         vertex_weight = weights,
-                         stringsAsFactors = FALSE)
-  DebtRank <- cbind(DebtRank, do.call("rbind", lapply(scenarios, function(x) x$DebtRank)))
-  row.names(DebtRank) <- NULL
-
+  
+  DebtRank <- data_frame(stressed_vertex = names(scenarios),
+                         vertex_weight = weights)
+  
+  DebtRank <- bind_cols(DebtRank, bind_rows(lapply(scenarios, function(x) x$DebtRank)))
+  
   reps <- sapply(scenarios, function(x) nrow(x$StressLevel))
-  StressLevel <- data.frame(stressed_vertex = rep(names(scenarios), reps),
-                            stringsAsFactors = FALSE, row.names = NULL)
-  StressLevel <- cbind(StressLevel, do.call("rbind", lapply(scenarios, function(x) x$StressLevel)))
-  row.names(StressLevel) <- NULL
-
+  
+  StressLevel <- data_frame(stressed_vertex = rep(names(scenarios), reps))
+  slevel <- bind_rows(lapply(scenarios, function(x) x$StressLevel))
+  StressLevel <- bind_cols(StressLevel, slevel)
+  
+  class(StressLevel) <- 'data.frame'
+  class(DebtRank) <- 'data.frame'
+  
   results <- list(DebtRank = DebtRank,
                   StressLevel = StressLevel)
-
+  
   class(results) <- "DebtRank"
   return(results)
 }
@@ -111,83 +122,107 @@ debt_rank_shock <- function(exposures,
                             exposure_type = c("assets", "liabilities", "vulnerability"),
                             max.it = 100,
                             abs.tol = 1e-9) {
-
+  
   # Normalize weights
   weights <- weights/sum(weights)
-
+  names(weights) <- NULL
+  
   # Computes the vulnerability matrix
-  vulnerability_matrix <- vulnerability_matrix(exposures = exposures,
-                                               capital_buffer = capital_buffer,
-                                               binary = binary,
-                                               exposure_type = exposure_type)
-
+  v <- vulnerability_matrix(exposures = exposures,
+                            capital_buffer = capital_buffer,
+                            binary = binary,
+                            exposure_type = exposure_type)
+  
   # caps the shock vector (it can't be negative and it can't be larger than 1)
   # maybe throw a warning?
   shock_vector[shock_vector > 1] <- 1
   shock_vector[shock_vector < 0] <- 0
-
+  
   # Checks shock vector size
-  nvertices <- nrow(vulnerability_matrix)
+  nvertices <- nrow(v)
   if (length(shock_vector) != nvertices)  stop("shock_vector must have the same length as the number of vertices in the vulnerability_matrix")
+  results <- .debt_rank_shock(v = v,
+                              shock_vector = shock_vector,
+                              weights = weights,
+                              binary = binary,
+                              exposure_type = "vulnerability",
+                              max.it = max.it,
+                              abs.tol = abs.tol)
+  
+  return(results)
+}
 
 
-  v <- t(vulnerability_matrix)
 
-  stressLevel <- matrix(0, nrow = nvertices, ncol = max.it)
-  bankState   <- matrix(0, nrow = nvertices, ncol = max.it)
-
-  stressLevel[, 1] <- shock_vector
-  bankState[shock_vector > 0, 1] <- 1 # 0 = Undistressed, 1 = Distressed, 2 = Inactive
-
+# internal function with no checks
+# v has to be a vulnerability matrix
+.debt_rank_shock <- function(v,
+                             shock_vector,
+                             weights,
+                             binary = FALSE,
+                             exposure_type = c("assets", "liabilities", "vulnerability"),
+                             max.it = 100,
+                             abs.tol = 1e-9) {
+  
+  stressLevel <- shock_vector
+  bankState   <- numeric(length(shock_vector))
+  
+  bankState[shock_vector > 0] <- 1 # 0 = Undistressed, 1 = Distressed, 2 = Inactive
+  
   time <- 1
-  while (any(bankState[,time] == 1)) {
+  
+  while (any(bankState == 1)) {
     time <- time + 1
-
-    previousDistressedBanks <- bankState[ ,time - 1] == 1
-
-    # For some reason, sparse matrices were very inefficient here (orders of magnitude)
-    v1 <- as.matrix(v[ ,previousDistressedBanks, drop = FALSE])
-
-    stressLevel[,time] <- stressLevel[ , time - 1, drop = FALSE] +
-      v1 %*%
-      stressLevel[previousDistressedBanks, time - 1, drop = FALSE]
-
-    index <- stressLevel[,time] > 1
-
-    if (any(index)) stressLevel[index, time] <- 1
-
-    bankState[,time] <- bankState[, time - 1]
-
-    bankState[previousDistressedBanks, time] <- 2
-
-    previousDeactivatedBanks <- bankState[,time] == 2
-
-    newDistressedBanks <- stressLevel[,time] > 0 & !previousDeactivatedBanks
-
-    if (any(newDistressedBanks)) bankState[newDistressedBanks , time] <- 1
-
-    conv <- norm(stressLevel[,time, drop = FALSE] - stressLevel[,time - 1 , drop = FALSE],
-                 "F")
+    
+    previousDistressedBanks <- bankState == 1
+    
+    previousStressLevel <- stressLevel
+    
+    stressLevel <- stressLevel +
+      c(stressLevel[previousDistressedBanks] %*% v[previousDistressedBanks, ])
+    
+    index <- stressLevel > 1
+    
+    if (any(index)) stressLevel[index] <- 1
+    
+    bankState[previousDistressedBanks] <- 2
+    
+    previousDeactivatedBanks <- bankState == 2
+    
+    newDistressedBanks <- stressLevel > 0 & !previousDeactivatedBanks
+    
+    if (any(newDistressedBanks)) bankState[newDistressedBanks] <- 1
+    
+    conv <- sqrt(sum((stressLevel - previousStressLevel) ^ 2))
     if (conv < abs.tol || time == max.it) break
   }
-
-  StressLevel <- data.frame(vertex_name = rownames(v),
+  
+  StressLevel <- data_frame(vertex_name = rownames(v),
                             vertex_weight = weights,
-                            initial_stress = stressLevel[,1],
-                            final_stress = stressLevel[,time],
-                            diff_stress = stressLevel[,time] - stressLevel[,1],
-                            row.names = NULL,
-                            stringsAsFactors = FALSE)
-
-  DebtRank <- data.frame(additional_stress = c(StressLevel$diff_stress %*% weights),
-                         additional_defaults = sum(StressLevel$final_stress == 1) -
-                           sum(StressLevel$initial_stress == 1), row.names = NULL)
-
+                            initial_stress = shock_vector,
+                            final_stress = stressLevel,
+                            diff_stress = stressLevel - shock_vector)
+  
+  additional_stress <- c(StressLevel$diff_stress %*% weights)
+  additional_defaults = sum(stressLevel == 1) - sum(shock_vector == 1)
+  DebtRank <- data_frame(additional_stress = additional_stress,
+                         additional_defaults = additional_defaults)
+  
+  class(StressLevel) <- 'data.frame'
+  class(DebtRank) <- 'data.frame'
+  
+  
   results <- list(DebtRank = DebtRank,
                   StressLevel = StressLevel)
   class(results) <- "DebtRankShock"
   return(results)
 }
+
+# c method for Sparse Matrices
+# work around to use c instead of as.vector with debt_rank
+##' @export
+c.Matrix <- function(...) as.vector(...)
+
 
 
 

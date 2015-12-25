@@ -162,4 +162,29 @@ test_that("DebtRank - Random Data",
             
             expect_warning(test <- debt_rank(exposures, buffer, size))
             expect_equal(test, res)
+            expect_warning(test2 <- debt_rank(Matrix(exposures), buffer, size))
+            expect_equal(test2, res)
+            test
+            plot(test)
+            
+            res2 <- structure(list(
+              DebtRank = structure(list(
+                additional_stress = 0.100681040489344, 
+                additional_defaults = 2L), 
+                .Names = c("additional_stress", "additional_defaults"), 
+                row.names = c(NA, -1L), class = "data.frame"), 
+              StressLevel = structure(list(
+                vertex_name = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"), 
+                vertex_weight = c(0, 0.47786067378296, 0, 0.231495669428445, 0.0850901856174138, 0.10797982474177, 0.0511679379216082, 0.0464057085078027, 0, 0), 
+                initial_stress = c(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5), 
+                final_stress = c(0.841464992261947, 0.5, 0.894853248747946, 0.5, 0.672313006609779, 0.844805815780465, 1, 1, 0.5, 0.5), 
+                diff_stress = c(0.341464992261947, 0, 0.394853248747946, 0, 0.172313006609779, 0.344805815780465, 0.5, 0.5, 0, 0)), 
+                .Names = c("vertex_name", "vertex_weight", "initial_stress", "final_stress", "diff_stress"), 
+                row.names = c(NA, -10L), class = "data.frame")), .Names = c("DebtRank", "StressLevel"),
+              class = "DebtRankShock")
+            
+            shock <- rep(0.5, n)
+            expect_warning(test3 <- debt_rank_shock(exposures, buffer, shock, size))
+            expect_equal(res2, test3)
+            
           })

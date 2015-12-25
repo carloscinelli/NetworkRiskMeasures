@@ -6,7 +6,7 @@ Date: 2015-10-21
 Author: Carlos Cinelli <carloscinelli@hotmail.com>, Thiago Cristiano Silva
     <thiagochris@gmail.com>
 Maintainer: Carlos Cinelli <carloscinelli@hotmail.com>
-Description: The NetworkRiskMeasures package implements some risk measures for (financial) networks, such as DebtRank, Impact Susceptibility, Impact Diffusion and Impact Fluidity. 
+Description: Implements some risk measures for (financial) networks, such as DebtRank, Impact Susceptibility, Impact Diffusion and Impact Fluidity. 
 License: GPL-3
 LazyData: TRUE
 Suggests: testthat, igraph
