@@ -14,5 +14,6 @@ Depends:
     Matrix
 Imports:
     expm,
-    ggplot2
+    ggplot2,
+    dplyr
 RoxygenNote: 5.0.1
