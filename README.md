@@ -21,7 +21,7 @@ devtools::install_github("carloscinelli/NetworkRiskMeasures", build_vignettes = 
 We are looking for interesting public datasets!
 -----------------------------------------------
 
-Most data that we use are confidential and we can't use them as examples on the package. So ee are looking for interesting, public datasets on bilateral exposures, and if you have any suggestion, please do let us know!
+Most bilateral exposures data are confidential and can't be used as examples on the package. So we are looking for interesting, public datasets on bilateral exposures for that purpose. If you have any suggestions, please let us know!
 
 Example usage
 -------------
@@ -64,7 +64,7 @@ p
 
 # Arbitray shock -- 10% stress shock in each node
 shock <- c(a = 0.1, b = 0.1, c = 0.1)
-debt_rank_shock(assets_matrix, buffer, shock, weights)
+debt_rank_shock(assets_matrix, buffer, weights, shock)
 #> 
 #> Shock causes additional stress of 16.07% in the network. 
 #> Additional defaulted entities: 0 

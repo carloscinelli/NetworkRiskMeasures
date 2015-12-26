@@ -8,7 +8,7 @@ criticality(exposures, capital_buffer, binary = FALSE,
   exposure_type = c("assets", "liabilities", "vulnerability"))
 }
 \arguments{
-\item{exposures}{an adjacency \code{\link{matrix}} or an \code{\link[igraph]{igraph}}
+\item{exposures}{an adjacency \code{\link{matrix}}, (sparse) \code{\link{Matrix}} or an \code{\link[igraph]{igraph}}
 object with the network of bilateral exposures between vertices. By default, the function
 expects the exposures in the form of an assets matrix
 in which A -> B means that A has an asset with B. However, you can

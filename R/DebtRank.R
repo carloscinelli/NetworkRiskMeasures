@@ -9,8 +9,10 @@
 ##' simulate arbitrary shocks in the network.
 ##'
 ##' @inheritParams vulnerability_matrix
-##'
-##' @param weights default is equal weights to all vertices. This should be a vector
+##' 
+##' @param shock_vector a numeric vector indicating the stress shock (between 0 and 1) for each vertex.
+##' 
+##' @param weights  This should be a vector
 ##' representing the relative importance of each vertex in the network.
 ##' If the vector does not sum to 1, it will be normalized. You should use
 ##' weights that have some practical significance like,
@@ -24,6 +26,10 @@
 ##' \item{DebtRank}{a \code{data.frame} with the additional stress level and additional defaulted entities caused by each stressed vertex.}
 ##' \item{StressLevel}{a \code{data.frame} with the initial, final and additional stress level for each other vertex caused
 ##' by the stressed vertex.}
+##' @return The \code{debt_rank_shock} function returns a object of class \code{DebtRankShock}, which is list containing:
+##' \item{DebtRank}{a \code{data.frame} with the additional stress level and additional defaulted entities caused by the shock vector.}
+##' \item{StressLevel}{a \code{data.frame} with the initial, final and additional stress level for each vertex caused
+##' by the shock vector.}
 ##'
 ##' @examples
 ##' # Creating example data
@@ -38,11 +44,11 @@
 ##' weights <-  c(a = 10, b = 100, c = 30)
 ##'
 ##' # DebtRank - computes stress for each node considering its default
-##' debt_rank(assets_matrix, buffer, weights)
+##' debt_rank(exposures = assets_matrix, capital_buffer = buffer, weights = weights)
 ##'
 ##' # Arbitray shock -- 10% stress shock in each node
 ##' shock <- c(a = 0.1, b = 0.1, c = 0.1)
-##' debt_rank_shock(assets_matrix, buffer, shock, weights)
+##' debt_rank_shock(exposures = assets_matrix, capital_buffer = buffer, weights = weights, shock_vector = shock)
 ##'
 ##' @references
 ##'
@@ -50,6 +56,48 @@
 ##' DebtRank: Too central to fail? Financial Networks, the FED and systemic risk.
 ##' Scientific Reports, 2:541.
 ##' @import dplyr
+##' @export
+debt_rank_shock <- function(exposures,
+                            capital_buffer,
+                            weights,
+                            shock_vector,
+                            binary = FALSE,
+                            exposure_type = c("assets", "liabilities", "vulnerability"),
+                            max.it = 100,
+                            abs.tol = 1e-9) {
+  
+  # Normalize weights
+  weights <- weights/sum(weights)
+  names(weights) <- NULL
+  
+  # Computes the vulnerability matrix
+  v <- vulnerability_matrix(exposures = exposures,
+                            capital_buffer = capital_buffer,
+                            binary = binary,
+                            exposure_type = exposure_type)
+  
+  # caps the shock vector (it can't be negative and it can't be larger than 1)
+  # maybe throw a warning?
+  shock_vector[shock_vector > 1] <- 1
+  shock_vector[shock_vector < 0] <- 0
+  
+  # Checks shock vector size
+  nvertices <- nrow(v)
+  if (length(shock_vector) != nvertices)  stop("shock_vector must have the same length as the number of vertices in the vulnerability_matrix")
+  results <- .debt_rank_shock(v = v,
+                              shock_vector = shock_vector,
+                              weights = weights,
+                              binary = binary,
+                              exposure_type = "vulnerability",
+                              max.it = max.it,
+                              abs.tol = abs.tol)
+  
+  return(results)
+}
+
+
+
+##' @name debt_rank_shock
 ##' @export
 debt_rank <- function(exposures,
                       capital_buffer,
@@ -106,59 +154,12 @@ debt_rank <- function(exposures,
   return(results)
 }
 
-##' @param shock_vector a numeric vector indicating the stress shock (between 0 and 1) for each vertex.
-##' @return The \code{debt_rank_shock} function returns a object of class \code{DebtRankShock}, which is list containing:
-##' \item{DebtRank}{a \code{data.frame} with the additional stress level and additional defaulted entities caused by the shock vector.}
-##' \item{StressLevel}{a \code{data.frame} with the initial, final and additional stress level for each vertex caused
-##' by the shock vector.}
-##'
-##' @name debt_rank
-##' @export
-debt_rank_shock <- function(exposures,
-                            capital_buffer,
-                            shock_vector,
-                            weights = rep(1, nrow(exposures)),
-                            binary = FALSE,
-                            exposure_type = c("assets", "liabilities", "vulnerability"),
-                            max.it = 100,
-                            abs.tol = 1e-9) {
-  
-  # Normalize weights
-  weights <- weights/sum(weights)
-  names(weights) <- NULL
-  
-  # Computes the vulnerability matrix
-  v <- vulnerability_matrix(exposures = exposures,
-                            capital_buffer = capital_buffer,
-                            binary = binary,
-                            exposure_type = exposure_type)
-  
-  # caps the shock vector (it can't be negative and it can't be larger than 1)
-  # maybe throw a warning?
-  shock_vector[shock_vector > 1] <- 1
-  shock_vector[shock_vector < 0] <- 0
-  
-  # Checks shock vector size
-  nvertices <- nrow(v)
-  if (length(shock_vector) != nvertices)  stop("shock_vector must have the same length as the number of vertices in the vulnerability_matrix")
-  results <- .debt_rank_shock(v = v,
-                              shock_vector = shock_vector,
-                              weights = weights,
-                              binary = binary,
-                              exposure_type = "vulnerability",
-                              max.it = max.it,
-                              abs.tol = abs.tol)
-  
-  return(results)
-}
-
-
 
 # internal function with no checks
 # v has to be a vulnerability matrix
 .debt_rank_shock <- function(v,
-                             shock_vector,
                              weights,
+                             shock_vector,
                              binary = FALSE,
                              exposure_type = c("assets", "liabilities", "vulnerability"),
                              max.it = 100,

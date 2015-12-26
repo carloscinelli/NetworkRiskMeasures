@@ -184,7 +184,7 @@ test_that("DebtRank - Random Data",
               class = "DebtRankShock")
             
             shock <- rep(0.5, n)
-            expect_warning(test3 <- debt_rank_shock(exposures, buffer, shock, size))
+            expect_warning(test3 <- debt_rank_shock(exposures, buffer, size, shock))
             expect_equal(res2, test3)
             
           })
