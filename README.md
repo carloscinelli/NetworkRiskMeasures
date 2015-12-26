@@ -21,7 +21,7 @@ devtools::install_github("carloscinelli/NetworkRiskMeasures", build_vignettes = 
 We are looking for interesting public datasets!
 -----------------------------------------------
 
-Most data that we use are confidential, so we can't use them as examples on the package. We are looking for interesting, public datasets on bilateral exposures to use as examples for the package. So if you have a suggestion, please do let us know!
+Most data that we use are confidential and we can't use them as examples on the package. So ee are looking for interesting, public datasets on bilateral exposures, and if you have any suggestion, please do let us know!
 
 Example usage
 -------------
@@ -48,14 +48,10 @@ dr <- debt_rank(assets_matrix, buffer, weights)
 dr
 #> 
 #> DebtRank (decreasing order):
-#>   Stressed Vertex Vertex Weight Additional Stress
-#> 1               a    0.07142857         0.9285714
-#> 3               c    0.21428571         0.6642857
-#> 2               b    0.71428571         0.2500000
-#>   Number of Additional Defaults
-#> 1                             2
-#> 3                             0
-#> 2                             1
+#>   Stressed Vertex Vertex Weight Additional Stress Number of Additional Defaults
+#> 1               a    0.07142857         0.9285714                             2
+#> 3               c    0.21428571         0.6642857                             0
+#> 2               b    0.71428571         0.2500000                             1
 
 # Experimental plot (with ggplot2)
 p <- plot(dr)

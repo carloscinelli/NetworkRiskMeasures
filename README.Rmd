@@ -9,6 +9,7 @@ output:
 [![Coverage Status](https://img.shields.io/codecov/c/github/carloscinelli/NetworkRiskMeasures/master.svg)](https://codecov.io/github/carloscinelli/NetworkRiskMeasures?branch=master)
 
 ```{r, echo = FALSE}
+options(width = 120)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -35,7 +36,7 @@ devtools::install_github("carloscinelli/NetworkRiskMeasures", build_vignettes = 
 
 ## We are looking for interesting public datasets!
 
-Most data that we use are confidential, so we can't use them as examples on the package. We are looking for interesting, public datasets on bilateral exposures to use as examples for the package. So if you have a suggestion, please do let us know!
+Most data that we use are confidential and we can't use them as examples on the package. So ee are looking for interesting, public datasets on bilateral exposures, and if you have any suggestion, please do let us know!
 
 ## Example usage
 
