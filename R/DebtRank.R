@@ -87,8 +87,6 @@ debt_rank_shock <- function(exposures,
   results <- .debt_rank_shock(v = v,
                               shock_vector = shock_vector,
                               weights = weights,
-                              binary = binary,
-                              exposure_type = "vulnerability",
                               max.it = max.it,
                               abs.tol = abs.tol)
   
@@ -127,8 +125,6 @@ debt_rank <- function(exposures,
     scenarios[[i]] <- .debt_rank_shock(v = v,
                                        shock_vector = shock,
                                        weights = weights,
-                                       binary = binary,
-                                       exposure_type = "vulnerability",
                                        max.it = max.it,
                                        abs.tol = abs.tol)
   }
@@ -160,8 +156,6 @@ debt_rank <- function(exposures,
 .debt_rank_shock <- function(v,
                              weights,
                              shock_vector,
-                             binary = FALSE,
-                             exposure_type = c("assets", "liabilities", "vulnerability"),
                              max.it = 100,
                              abs.tol = 1e-9) {
   
