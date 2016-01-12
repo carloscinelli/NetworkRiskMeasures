@@ -7,12 +7,13 @@
 communicability_matrix(x, terms = Inf, sparse = TRUE)
 }
 \arguments{
-\item{x}{a \code{\link{matrix}} or an \code{\link[igraph]{igraph}} object.}
+\item{x}{a square \code{\link{matrix}} or an \code{\link[igraph]{igraph}} object.}
 
-\item{terms}{truncates the communicability matrix evaluation to the number of terms.
-If \code{Inf} it calculates the matrix exponential using \code{\link{expm}}.}
+\item{terms}{truncates the communicability matrix evaluation up to a pre-defined number of terms.
+If \code{terms = Inf} the function computes the matrix exponential using \code{\link{expm}}.}
 
-\item{sparse}{should it use sparse matrices when computing the communicability? However, if \code{terms = Inf}
+\item{sparse}{should the function use sparse matrices when computing the communicability? 
+However, if \code{terms = Inf}
 the function will use \code{\link{expm}} which uses \code{\link{dgeMatrix-class}}.}
 }
 \value{
@@ -20,9 +21,13 @@ The function returns the communicability matrix.
 }
 \description{
 The communicability of an adjacency matrix M is defined as exp(M) where
-M[i,j] can be interpreted as the weighted sums of paths from i to j. The function
-computes the communicability matrix using the exponential or
-using an approximation with a defined number of terms.
+M[i,j] can be interpreted as the weighted sums of paths from i to j. 
+Recall that exp(M) can be cast into a Taylor series expansion with an 
+infinite number additive terms. 
+The function permits the evaluation of exp(M) using the \code{\link{expm}} package 
+or using a simpler mathematical approximation. 
+In the second case, the function truncates the infinite series by 
+simply calculating the summation terms up to a pre-defined number of factors.
 }
 \examples{
 # Creating example data

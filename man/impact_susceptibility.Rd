@@ -34,14 +34,16 @@ parameter is not needed if \code{exposure_type = "vulnerability"}.}
 vector of weights to give some economic significance to the measures, like,
 for instance, the total assets of the defaulted nodes.}
 
-\item{terms}{truncates the communicability matrix evaluation to the number of terms.
-If \code{Inf} it calculates the matrix exponential using \code{\link{expm}}.}
+\item{terms}{truncates the communicability matrix evaluation up to a pre-defined number of terms.
+If \code{terms = Inf} the function computes the matrix exponential using \code{\link{expm}}.}
 
-\item{sparse}{should it use sparse matrices when computing the communicability? However, if \code{terms = Inf}
+\item{sparse}{should the function use sparse matrices when computing the communicability? 
+However, if \code{terms = Inf}
 the function will use \code{\link{expm}} which uses \code{\link{dgeMatrix-class}}.}
 
-\item{binary}{if \code{binary = TRUE} it computes the binary vulnerability matrix,
-truncating all values less than 1 to 0.}
+\item{binary}{if \code{binary = TRUE} the function computes the binary vulnerability matrix,
+truncating all values less than 1 to 0. Otherwise, 
+it uses the partial stress version of the vulnerability matrix.}
 
 \item{exposure_type}{character vector indicating the type of the bilateral exposures. It can be
 an "assets" network (where A -> B means that A has an asset with B),
@@ -71,7 +73,7 @@ the network.
 The \code{impact_diffusion} tries to capture the influence
 exercised by a node on the propagation of impacts in the network. The
 impact diffusion of a vertex is measured by the change it causes on the
-impact suscepibility of other vertices when its power to
+impact susceptibility of other vertices when its power to
 propagate contagion is removed from the network.
 
 All these measures are based on the communicability of the
@@ -98,6 +100,6 @@ Silva, T.C.; Souza, S.R.S.; Tabak, B.M. (2015) Monitoring vulnerability and impa
 diffusion in financial networks. Working Paper 392, Central Bank of Brazil.
 
 Silva, T.C.; Souza, S.R.S.; Tabak, B.M. (2015) Network structure analysis
-of the brazilian interbank market . Working Paper 392, Central Bank of Brazil.
+of the Brazilian interbank market . Working Paper 391, Central Bank of Brazil.
 }
 

@@ -19,8 +19,9 @@ rows and columns names.}
 Values should be in the same row/column order as the network of bilateral exposures. This
 parameter is not needed if \code{exposure_type = "vulnerability"}.}
 
-\item{binary}{if \code{binary = TRUE} it computes the binary vulnerability matrix,
-truncating all values less than 1 to 0.}
+\item{binary}{if \code{binary = TRUE} the function computes the binary vulnerability matrix,
+truncating all values less than 1 to 0. Otherwise, 
+it uses the partial stress version of the vulnerability matrix.}
 
 \item{exposure_type}{character vector indicating the type of the bilateral exposures. It can be
 an "assets" network (where A -> B means that A has an asset with B),

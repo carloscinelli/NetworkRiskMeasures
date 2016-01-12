@@ -33,8 +33,9 @@ for instance, the total assets of the nodes in the case of a financial network.}
 
 \item{shock_vector}{a numeric vector indicating the stress shock (between 0 and 1) for each vertex.}
 
-\item{binary}{if \code{binary = TRUE} it computes the binary vulnerability matrix,
-truncating all values less than 1 to 0.}
+\item{binary}{if \code{binary = TRUE} the function computes the binary vulnerability matrix,
+truncating all values less than 1 to 0. Otherwise, 
+it uses the partial stress version of the vulnerability matrix.}
 
 \item{exposure_type}{character vector indicating the type of the bilateral exposures. It can be
 an "assets" network (where A -> B means that A has an asset with B),
@@ -48,20 +49,26 @@ it can be a (binary) "vulnerability" matrix (where A -> B indicates the relative
 \item{abs.tol}{the absolute convergence tolerance. Default is 1e-9.}
 }
 \value{
-The \code{debt_rank} function returns an object of class \code{DebtRank}, which is a list containing:
-\item{DebtRank}{a \code{data.frame} with the additional stress level and additional defaulted entities caused by each stressed vertex.}
+The \code{debt_rank} function returns an object of class \code{DebtRank}, 
+which is a list containing:
+\item{DebtRank}{a \code{data.frame} with the additional stress level and 
+the number of additional defaulted entities caused 
+by each stressed vertex (initial shock scenario).}
 \item{StressLevel}{a \code{data.frame} with the initial, final and additional stress level for each other vertex caused
-by the stressed vertex.}
+by the stressed vertex (initial shock scenario).}
 
-The \code{debt_rank_shock} function returns a object of class \code{DebtRankShock}, which is list containing:
-\item{DebtRank}{a \code{data.frame} with the additional stress level and additional defaulted entities caused by the shock vector.}
+The \code{debt_rank_shock} function returns an object of class \code{DebtRankShock}, 
+which is list containing:
+\item{DebtRank}{a \code{data.frame} with the additional stress level and 
+the number of additional defaulted entities caused by the initial shock vector.}
 \item{StressLevel}{a \code{data.frame} with the initial, final and additional stress level for each vertex caused
-by the shock vector.}
+by the initial shock vector.}
 }
 \description{
-The \code{debt_rank} function computes the DebtRank, additional defaults and the
+The \code{debt_rank} function computes the DebtRank, 
+the number of additional defaults and the
 differences in stress levels caused by each vertex of the network
-when considering its default.
+when we consider as the initial shock scenario its default.
 
 You can also use the auxiliary function \code{debt_rank_shock} to
 simulate arbitrary shocks in the network.
@@ -81,7 +88,7 @@ weights <-  c(a = 10, b = 100, c = 30)
 # DebtRank - computes stress for each node considering its default
 debt_rank(exposures = assets_matrix, capital_buffer = buffer, weights = weights)
 
-# Arbitray shock -- 10\% stress shock in each node
+# Arbitrary shock -- 10\% stress shock for each node
 shock <- c(a = 0.1, b = 0.1, c = 0.1)
 debt_rank_shock(exposures = assets_matrix, capital_buffer = buffer, weights = weights, shock_vector = shock)
 

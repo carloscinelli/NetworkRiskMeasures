@@ -49,7 +49,7 @@ criticality <- function(exposures,
 ##' The \code{impact_diffusion} tries to capture the influence
 ##' exercised by a node on the propagation of impacts in the network. The
 ##' impact diffusion of a vertex is measured by the change it causes on the
-##' impact suscepibility of other vertices when its power to
+##' impact susceptibility of other vertices when its power to
 ##' propagate contagion is removed from the network.
 ##'
 ##' All these measures are based on the communicability of the
@@ -86,7 +86,7 @@ criticality <- function(exposures,
 ##' diffusion in financial networks. Working Paper 392, Central Bank of Brazil.
 ##'
 ##' Silva, T.C.; Souza, S.R.S.; Tabak, B.M. (2015) Network structure analysis
-##' of the brazilian interbank market . Working Paper 392, Central Bank of Brazil.
+##' of the Brazilian interbank market . Working Paper 391, Central Bank of Brazil.
 ##'
 ##' @export
 impact_susceptibility <- function(exposures,

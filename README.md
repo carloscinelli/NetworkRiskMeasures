@@ -62,7 +62,7 @@ p
 
 ``` r
 
-# Arbitray shock -- 10% stress shock in each node
+# Arbitrary shock -- 10% stress shock for each node
 shock <- c(a = 0.1, b = 0.1, c = 0.1)
 debt_rank_shock(assets_matrix, buffer, weights, shock)
 #> 
