@@ -90,7 +90,10 @@ debt_rank(exposures = assets_matrix, capital_buffer = buffer, weights = weights)
 
 # Arbitrary shock -- 10\% stress shock for each node
 shock <- c(a = 0.1, b = 0.1, c = 0.1)
-debt_rank_shock(exposures = assets_matrix, capital_buffer = buffer, weights = weights, shock_vector = shock)
+debt_rank_shock(exposures = assets_matrix, 
+                capital_buffer = buffer, 
+                weights = weights, 
+                shock_vector = shock)
 
 }
 \references{
