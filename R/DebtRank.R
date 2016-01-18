@@ -54,7 +54,10 @@
 ##'
 ##' # Arbitrary shock -- 10% stress shock for each node
 ##' shock <- c(a = 0.1, b = 0.1, c = 0.1)
-##' debt_rank_shock(exposures = assets_matrix, capital_buffer = buffer, weights = weights, shock_vector = shock)
+##' debt_rank_shock(exposures = assets_matrix, 
+##'                 capital_buffer = buffer, 
+##'                 weights = weights, 
+##'                 shock_vector = shock)
 ##'
 ##' @references
 ##'
@@ -102,6 +105,7 @@ debt_rank_shock <- function(exposures,
 
 
 ##' @name debt_rank_shock
+##' @importFrom stats setNames
 ##' @export
 debt_rank <- function(exposures,
                       capital_buffer,
@@ -180,7 +184,7 @@ debt_rank <- function(exposures,
     previousStressLevel <- stressLevel
     
     stressLevel <- stressLevel +
-      c(stressLevel[previousDistressedBanks] %*% v[previousDistressedBanks, ])
+      c(stressLevel[previousDistressedBanks] %*% v[previousDistressedBanks, ,drop=FALSE])
     
     index <- stressLevel > 1
     
