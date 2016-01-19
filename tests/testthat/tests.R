@@ -1,5 +1,9 @@
 library(testthat)
 
+
+# Vulnerability and Communicability ---------------------------------------
+
+
 test_that("vulnerability and communicability",
           {
             liabilities <- structure(c(0, 0, 0, 0, 0, 0,
@@ -28,7 +32,13 @@ test_that("vulnerability and communicability",
                                        capital_buffer = capital_buffer,
                                        binary = FALSE, exposure_type = "liabilities")
             expect_equal(v1, res)
-
+            
+            crit <- criticality(assets, capital_buffer)
+            crit1 <- criticality(v1, exposure_type = "vulnerability")
+            crit2 <- rowSums(v1)
+            expect_equal(crit, crit1)
+            expect_equal(crit1, crit2)
+            
             v2 <- vulnerability_matrix(exposures = assets,
                                        capital_buffer = capital_buffer,
                                        binary = FALSE,
@@ -98,6 +108,65 @@ test_that("vulnerability and communicability",
 
             }
 )
+
+
+
+# impact_susceptibility ---------------------------------------------------
+
+
+test_that("impact_susceptibility and fluidity",{
+  v <- structure(c(0, 0, 0, 0, 0, 1, 0, 1, 
+                   0, 0, 1, 1, 0, 0, 0, 0, 1, 
+                   1, 0, 0, 0, 0, 0, 0, 0), .Dim = c(5L, 5L), 
+                 .Dimnames = list(c("A", "B", "C", "D", "E"), 
+                                  c("A", "B", "C", "D", "E")))
+  
+  # Terms = 4
+  s <- impact_susceptibility(v, exposure_type = "vulnerability", terms = 4)
+  s_test <- structure(c(0, 1.4375, 1.4375, 2.41666666666667, 0),
+                      .Names = c("A","B", "C", "D", "E"))
+  expect_equal(s, s_test,
+               label = "Impact Susceptibility, terms = 4",
+               expected.label = "Expected Impact Susceptibility, terms = 4")
+  
+  # Inf
+  s <- impact_susceptibility(v, exposure_type = "vulnerability", terms = Inf)
+  s_test <- structure(c(0, 1.44674151105142, 1.44674151105142, 2.43656365691809, 
+                        0), .Names = c("A", "B", "C", "D", "E"))
+  expect_equal(s, s_test,
+               label = "Impact Susceptibility, terms = 4",
+               expected.label = "Expected Impact Susceptibility, terms = 4")
+  # fluidity
+  f <- impact_fluidity(v, exposure_type = "vulnerability")
+  expect_equal(f, 
+               mean(s),
+               label = "Impact Fluidity",
+               expected.label = "Expected Impact Fluidity")
+}
+)
+
+
+
+# Impact Diffusion --------------------------------------------------------
+test_that("Impact Diffusion", {
+  v <- structure(c(0, 0, 0, 0, 0, 1, 0, 1, 
+                   0, 0, 1, 1, 0, 0, 0, 0, 1, 
+                   1, 0, 0, 0, 0, 0, 0, 0), .Dim = c(5L, 5L), 
+                 .Dimnames = list(c("A", "B", "C", "D", "E"), 
+                                  c("A", "B", "C", "D", "E")))
+  d <- impact_diffusion(v, exposure_type = "vulnerability", terms = 4)
+  d_test <- structure(list(vertex = as.factor(c("A", "B", "C", "D", "E")),
+                           start = c(2.41666666666667, 1.4375, 1.4375, 0, 0),
+                           intermediate = c(0, 1.35416666666667, 1.35416666666667, 0, 0),
+                           total = c(2.41666666666667, 2.79166666666667, 2.79166666666667, 0, 0)),
+                      .Names = c("vertex","start", "intermediate", "total"),
+                      row.names = c(NA, -5L), class = "data.frame")
+  expect_equal(d, d_test,
+               label = "Impact Diffusion",
+               expected.label = "Expected Impact Diffusion")
+}
+)
+# DebtRank ----------------------------------------------------------------
 
 
 test_that("DebtRank - Random Data", 
