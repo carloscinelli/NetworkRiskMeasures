@@ -18,16 +18,21 @@ knitr::opts_chunk$set(
 
 ```
 
-The Network Risk Measures (`NetworkRiskMeasures`) package implements some risk measures for (financial) networks, such as DebtRank, Impact Susceptibility, Impact Diffusion and Impact Fluidity. 
+The Network Risk Measures (`NetworkRiskMeasures`) package implements a set of tools to analyze systemic risk in (financial) networks in a unified framework. We currently have implemented:
+
+  - matrix reconstruction methods such as the maximum entropy (Upper, 2004) and minimum density estimation (Anand et al, 2015);
+  - a flexible contagion algorithm with: (i) threshold propagation (traditional default cascades), (ii) linear propagation (*aka* DebtRank -- Battiston et al (2012) and Bardoscia et al (2105)), (iii) a combination of threshold and linear propagation (iv) as well as any other custom propagation function provided by the user. 
+  - network risk measures based on the communicability matrix such as: impact susceptibility, impact diffusion and impact fluidity (Silva et al 2015a and 2015b).
+
 
 ## CRAN
 
-The package will soon be on CRAN. We are still implementing some unit testing. 
+The package will soon be on CRAN. We are still implementing other methods, improving the unit testing, the documentation and working on the API.
 
 
 ## How to install the development version from GitHub
 
-To install the GitHub version you need to have the package `devtools` installed. Make sure to set the option `build_vignettes = TRUE` to compile the package vignette (but it is not available yet). 
+To install the GitHub version you need to have the package `devtools` installed. Make sure to set the option `build_vignettes = TRUE` to compile the package vignette (not available yet). 
 
 ```{r, eval = FALSE}
 # install.packages("devtools") # run this to install the devtools package
@@ -40,46 +45,251 @@ Most bilateral exposures data are confidential and can't be used as examples on 
 
 ## Example usage
 
-To be expanded.
+### Filling in the blanks: estimating the adjacency matrix
+
+Many regulators have data on total interbank exposures but do not observe the ***network*** of bilateral exposures. That is, they only know the marginals of the interbank adjacency matrix. Consider the example below with 7 fictious banks -- banks A through G (Anand et al, 2015, p.628):
+
+<center>
+![](README-observable.png)
+</center>
+
+We know how much each bank has in the interbank market in the form of assets and liabilities (row and column sums)--but we do not know how each bank is related to each other.  In those cases, if one wants to run contagion simulations or assess other risk measures, it is necessary to ***estimate*** the interbank network.  
+
+Two popular methods for this task are the maximum entropy (Upper, 2004) and minimum density estimation (Anand et al, 2015). These two methods are already implemented on the package. So, let's build the interbank assets and liabilities vectors of our example (which are the row and column sums of the interbank network) to see how the estimation function works:
 
 ```{r}
+# Example from Anand, Craig and Von Peter (2015, p.628)
+# Total Liabilities
+L <- c(a = 4, b = 5, c = 5, d = 0, e = 0, f = 2, g = 4)
+
+# Total Assets
+A <- c(a = 7, b = 5, c = 3, d = 1, e = 3, f = 0, g = 1)
+```
+
+For the maximum entropy estimation we can use the `matrix_estimation()` function by providing the row (assets) sums, column (liabilites) sums and the parameter `method = "me"`. The maximum entropy estimate of the interbank network assumes that each bank tries to *diversify* its exposures as evenly as possible, given the restrictions.  
+
+```{r}
+# Loads the package
 library(NetworkRiskMeasures)
 
-# Creating simple example data
-## Assets Matrix (bilateral exposures)
-assets_matrix <- matrix(c(0, 10, 3, 1, 0, 2, 0, 3, 0), ncol = 3)
-rownames(assets_matrix) <- colnames(assets_matrix) <- letters[1:3]
+# Maximum Entropy Estimation
+ME <- matrix_estimation(rowsums = A, colsums = L, method = "me")
+```
 
-## Capital Buffer
-buffer <- c(a = 2, b = 5, c = 2)
+The resulting adjacency matrix is:
 
-## "Size" of the nodes
-weights <-  c(a = 10, b = 100, c = 30)
+```{r}
+ME <- round(ME, 2)
+ME
+```
 
-# DebtRank - computes stress for each node considering its default
-dr <- debt_rank(assets_matrix, buffer, weights)
-dr
+This solution may work well in some cases, but it does not mimic some properties of interbank networks, which are known to be sparse and disassortative. Therefore, one proposed alternative to the maximum entropy is the "minimum density" estimation by Anand et al (2015). To do that in R, just change the parameter `method` to `"md"` in the `matrix_estimation()` function:
 
-# Experimental plot (with ggplot2)
-p <- plot(dr)
-p
+```{r}
+# Minimum Density Estimation
+set.seed(192) # seed for reproducibility
+MD <- matrix_estimation(A, L, method = "md")
+```
 
-# Arbitrary shock -- 10% stress shock for each node
-shock <- c(a = 0.1, b = 0.1, c = 0.1)
-debt_rank_shock(assets_matrix, buffer, weights, shock)
+The resulting adjacency matrix is:
 
-## Measures based on the communicability matrix
-## Impact Susceptibility, Fluidity and Diffusion
-impact_susceptibility(assets_matrix, buffer)
-impact_fluidity(assets_matrix, buffer)
-impact_diffusion(assets_matrix, buffer)
+```{r}
+MD
+```
+
+We intend to implement other estimation methods used in the literature. For an overview of current proposed methods and how well they fit known networks, you may watch Anand's presentation below:
+
+<center><iframe src="https://player.vimeo.com/video/145290048" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<p><a href="https://vimeo.com/145290048">The missing links: a global study on uncovering financial network structure from partial data</a> from <a href="https://vimeo.com/cambridgejbs">Cambridge Judge Business School</a> on <a href="https://vimeo.com">Vimeo</a>.</p></center>
+
+###  Measuring risk: findind systemically important institutions and simulating scenarios
+
+Two important questions:
+ 
+ - How can we find important or systemic institutions?
+ - How can we estimate the impact of shock scenarios, considering possible contagion effects?
+ 
+ 
+#### The example data: simulated interbank network
+
+For illustration purposes, the `NetworkRiskMeasures` package comes with a simulated dataset of interbank assets, liabilities, capital buffer and weights for 125 nodes. Let's use it for our analysis:
+
+```{r}
+# See the code to generate the dataset in the help files: ?sim_data.
+data("sim_data")
+head(sim_data)
+```
+
+In this example, we do not observe the real network, only the marginals (total assets and liabilities). Thus, we must estimate the adjacency matrix before running the contagion simulations or calculating other network measures. For now, we will use the minimum density estimation:
+
+```{r}
+# seed - min. dens. estimation is stochastic
+set.seed(15) 
+
+# minimum density estimation
+# verbose = F to prevent printing
+md_mat <- matrix_estimation(sim_data$assets, sim_data$liabilities, method = "md", verbose = F)
+
+# rownames and colnames for the matrix
+rownames(md_mat) <- colnames(md_mat) <- sim_data$bank
+```
+
+Once we have our network, we can visualise it either using `igraph` or `ggplot2` along with the `ggnetwork` package. Below we give an example with `ggplot2` -- it's useful to remember that we have an *assets matrix*, so $a \rightarrow b$ means that node $a$ has an asset with node $b$:
+
+```{r, warning = FALSE, message=FALSE, fig.align='center'}
+library(ggplot2)
+library(ggnetwork)
+library(igraph)
+
+# converting our network to an igraph object
+gmd <- graph_from_adjacency_matrix(md_mat, weighted = T)
+
+# adding other node attributes to the network
+V(gmd)$buffer <- sim_data$buffer
+V(gmd)$weights <- sim_data$weights/sum(sim_data$weights)
+V(gmd)$assets  <- sim_data$assets
+V(gmd)$liabilities <- sim_data$liabilities
+
+# ploting with ggplot and ggnetwork
+set.seed(20)
+netdf <- ggnetwork(gmd)
+
+ggplot(netdf, aes(x = x, y = y, xend = xend, yend = yend)) + 
+  geom_edges(arrow = arrow(length = unit(6, "pt"), type = "closed"), 
+             color = "grey50", curvature = 0.1, alpha = 0.5) + 
+  geom_nodes(aes(size = weights)) + 
+  ggtitle("Estimated interbank network") + 
+  theme_blank()
+```
+
+As one can see, the resulting network is sparse and disassortative:
+
+```{r, warning=FALSE, message=FALSE}
+# network density
+edge_density(gmd)
+
+# assortativity
+assortativity_degree(gmd)
 ```
 
 
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
+#### Finding central, important or systemic nodes on the network
+
+How can we find the important (central) or systemic banks in our network? 
+
+##### Traditional centrality measures, impact susceptibility and impact diffusion 
+
+A first approach to this problem would be to use traditional centrality measures from network theory. You can calculate those easily with packages like `igraph`:
+
+```{r}
+sim_data$degree <- igraph::degree(gmd)
+sim_data$btw    <- igraph::betweenness(gmd)
+sim_data$close  <- igraph::closeness(gmd)
+sim_data$eigen  <- igraph::eigen_centrality(gmd)$vector
+sim_data$alpha  <- igraph::alpha_centrality(gmd, alpha = 0.5)
 ```
+
+Other interesting measures are the impact susceptibility and impact diffusion. These are implemented in the `NetworkRiskMeasures` package with the `impact_susceptibility()` and `impact_diffusion()` functions.
+
+The impact susceptibility measures the feasible contagion paths that can reach a vertex in relation to its direct contagion paths. When the impact susceptibility is greater than 1, that means the vertex is vulnerable to other vertices beyond its direct neighbors (remotely vulnerable). 
+
+The impact diffusion tries to capture the influence exercised by a node on the propagation of impacts in the network. The impact diffusion of a vertex is measured by the change it causes on the impact susceptibility of other vertices when its power to propagate contagion is removed from the network. 
+
+```{r, message=FALSE, warning=FALSE}
+sim_data$imps <- impact_susceptibility(exposures = gmd, buffer = sim_data$buffer)
+sim_data$impd <- impact_diffusion(exposures = gmd, buffer = sim_data$buffer, weights = sim_data$weights)$total
+```
+
+Notice that both the traditional metrics and the communicability measures depend on network topology but do not depend on a specific shock. 
+
+##### Contagion metrics: default cascades and DebtRank
+
+The previous metrics might not have an economically meaningful interpretation. So another way to measure the systemic importance of a bank is to answer the following question: how would the default of the entity impact the system? 
+
+To simulate a contagion process in the network we can use the `contagion()` function. The main arguments of the function are the exposure matrix, the capital buffer and the node's weights. You may choose different propagation methods or even provide your own. Right now, let's see only two different approaches for the propagation: the traditional default cascade and the DebtRank.
+
+The DebtRank methodology proposed by Bardoscia et al (2015) considers a linear shock propagation --- briefly, that means that when a bank loses, say, 10% of its capital buffer, it propagates losses of 10% of its debts to its creditors. If you run the `contagion()` function with parameters `shock = "all"` and `method = "debtrank"`, you will simulate the default of each bank in the network using the DebtRank methodology (linear propagation).
+
+```{r, warning=FALSE}
+# DebtRank simulation
+contdr <- contagion(exposures = md_mat, buffer = sim_data$buffer, weights = sim_data$weights, 
+                    shock = "all", method = "debtrank", verbose = F)
+summary(contdr)
+```
+
+What does these results mean? 
+
+Take, for instance, the results for bank `b55`. It represents 11% of our simulated financial system. However, if we consider a linear shock propagation, its default causes an additional stress of 28% of the system, with additional losses of $235.8 billion and the default of 18 other institutions. Or take the results for `b69` --- although it represents only 1.3% of the system, its default casuses an additional stress of almost ten times its size.
+
+```{r, fig.align='center'}
+plot(contdr)
+```
+
+You don't need to interpret these results too literally. You could use the additional stress indicator (the DebtRank) as a measure of the systemic importance of the institution:
+
+```{r}
+contdr_summary <- summary(contdr)
+sim_data$DebtRank <- contdr_summary$summary_table$additional_stress
+```
+
+One can also consider a different propagation method. For example, a bank may not transmit contagion unless it defaults. To do that, just change the contagion method to `threshold`. 
+
+```{r}
+# Traditional default cascades simulation
+contthr <-  contagion(exposures = md_mat, buffer = sim_data$buffer, weights = sim_data$weights, 
+                      shock = "all", method = "threshold", verbose = F)
+summary(contthr)
+```
+
+Let's save the results in our `sim_data` along with the other metrics:
+
+```{r}
+contthr_summary <- summary(contthr)
+sim_data$cascade <- contthr_summary$summary_table$additional_stress
+```
+
+Now we have all of our indicators in the `sim_data` `data.frame`:
+```{r}
+head(sim_data)
+```
+
+We may see how some of these different metrics rank each of the nodes. For instance, the DebtRank and the Default Cascade indicators agree up to the first five institutions. 
+
+```{r}
+rankings <- sim_data[1]
+rankings <- cbind(rankings, lapply(sim_data[c("DebtRank","cascade","degree","eigen","impd","assets", "liabilities", "buffer")], 
+                                   function(x) as.numeric(factor(-1*x))))
+rankings <- rankings[order(rankings$DebtRank), ]
+head(rankings, 10)
+```
+
+And the cross-correlations between the metrics:
+
+```{r}
+cor(rankings[-1])
+```
+
+
+#### Simulating arbitrary contagion scenarios
+
+The `contagion()` function is flexible and you can simulate arbitrary scenarios with it. For example, how would simultaneous stress shocks of 1% up to 25% in all banks affect the system? To do that, just creat a list with the shock vectors and pass it to `contagion()`.
+
+```{r}
+s <- seq(0.01, 0.25, by = 0.01)
+shocks <- lapply(s, function(x) rep(x, nrow(md_mat)))
+names(shocks) <- paste(s*100, "pct shock")
+
+cont <- contagion(exposures = gmd, buffer = sim_data$buffer, shock = shocks, weights = sim_data$weights, method = "debtrank", verbose = F)
+summary(cont)
+```
+
+
+```{r}
+plot(cont, size = 2.2)
+```
+
+In this example, a 5% shock in all banks causes an additional stress of 20% in the system, an amplification of 4 times the initial shock.
+
+#### Creating your own propagation method
+
+To be expanded.

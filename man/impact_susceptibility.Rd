@@ -6,17 +6,17 @@
 \alias{impact_susceptibility}
 \title{Impact Susceptibility, Fluidity and Diffusion}
 \usage{
-impact_susceptibility(exposures, capital_buffer, weights = NULL,
-  terms = Inf, sparse = TRUE, binary = TRUE, exposure_type = c("assets",
-  "liabilities", "vulnerability"))
-
-impact_fluidity(exposures, capital_buffer, weights = NULL, terms = Inf,
+impact_susceptibility(exposures, buffer, weights = NULL, terms = Inf,
   sparse = TRUE, binary = TRUE, exposure_type = c("assets", "liabilities",
-  "vulnerability"))
+  "impact", "vulnerability"))
 
-impact_diffusion(exposures, capital_buffer, weights = NULL, terms = Inf,
+impact_fluidity(exposures, buffer, weights = NULL, terms = Inf,
   sparse = TRUE, binary = TRUE, exposure_type = c("assets", "liabilities",
-  "vulnerability"))
+  "impact", "vulnerability"))
+
+impact_diffusion(exposures, buffer, weights = NULL, terms = Inf,
+  sparse = TRUE, binary = TRUE, exposure_type = c("assets", "liabilities",
+  "impact", "vulnerability"))
 }
 \arguments{
 \item{exposures}{an adjacency \code{\link{matrix}}, (sparse) \code{\link{Matrix}} or an \code{\link[igraph]{igraph}}
@@ -26,13 +26,13 @@ in which A -> B means that A has an asset with B. However, you can
 change that with the parameter \code{exposure_type}. When using a matrix, preferably it should have
 rows and columns names.}
 
-\item{capital_buffer}{a numeric vector with the capital buffer for each vertex.
-Values should be in the same row/column order as the network of bilateral exposures. This
-parameter is not needed if \code{exposure_type = "vulnerability"}.}
+\item{buffer}{a numeric vector with the capital buffer for each vertex.
+Values should be in the same row/column order as the network of bilateral exposures. The
+buffer is not needed if \code{exposure_type = "vulnerability"}.}
 
 \item{weights}{default is \code{NULL}. You can use a numeric
 vector of weights to give some economic significance to the measures, like,
-for instance, the total assets of the defaulted nodes.}
+for instance, the total assets of the nodes.}
 
 \item{terms}{truncates the communicability matrix evaluation up to a pre-defined number of terms.
 If \code{terms = Inf} the function computes the matrix exponential using \code{\link{expm}}.}
@@ -41,16 +41,17 @@ If \code{terms = Inf} the function computes the matrix exponential using \code{\
 However, if \code{terms = Inf}
 the function will use \code{\link{expm}} which uses \code{\link{dgeMatrix-class}}.}
 
-\item{binary}{if \code{binary = TRUE} the function computes the binary vulnerability matrix,
-truncating all values less than 1 to 0. Otherwise, 
-it uses the partial stress version of the vulnerability matrix.}
+\item{binary}{if \code{binary = TRUE} the function computes a 'binary' impact or vulnerability matrix.
+It truncates all values less than 1 to 0 and all values greater than 1 to 1.}
 
 \item{exposure_type}{character vector indicating the type of the bilateral exposures. It can be
-an "assets" network (where A -> B means that A has an asset with B),
-a "liabilities" network (where A -> B means that A has a debt with B) or
-it can be a (binary) "vulnerability" matrix (where A -> B indicates the relative impact
- of A in B's capital buffer).For the last option see \code{\link{vulnerability_matrix}}.
- The default is "assets".}
+an \code{"assets"} network (where A -> B means that A has an asset with B),
+a \code{"liabilities"} network (where A -> B means that A has a debt with B),
+a (binary) \code{"impact"} matrix (where A -> B indicates the relative impact
+ of A in B's capital buffer), or 
+a (binary) \code{"vulnerability"} matrix 
+(where A -> B indicates the relative impact A suffers from B's default). 
+The default is \code{"assets"}.}
 }
 \value{
 The \code{impact_susceptibility} function returns a vector with the (weighted) impact susceptibility
