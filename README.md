@@ -32,7 +32,7 @@ Example usage
 
 ### Filling in the blanks: estimating the adjacency matrix
 
-Many regulators have data on total interbank exposures but do not observe the ***network*** of bilateral exposures. That is, they only know the marginals of the interbank adjacency matrix. Consider the example below with 7 fictious banks -- banks A through G (Anand et al, 2015, p.628):
+Many regulators have data on total interbank exposures but do not observe the ***network*** of bilateral exposures. That is, they only know the marginals of the interbank adjacency matrix. Consider the example below with 7 fictitious banks -- banks A through G (Anand et al, 2015, p.628):
 
 <center>
 ![](README-observable.png)
@@ -288,7 +288,7 @@ summary(contdr)
 #>      b101          0.0070             0.060             9.3              17.1                   3
 ```
 
-What does these results mean?
+What do these results mean?
 
 Take, for instance, the results for bank `b55`. It represents 11% of our simulated financial system. However, if we consider a linear shock propagation, its default causes an additional stress of 28% of the system, with additional losses of $235.8 billion and the default of 18 other institutions. Or take the results for `b69` --- although it represents only 1.3% of the system, its default casuses an additional stress of almost ten times its size.
 
