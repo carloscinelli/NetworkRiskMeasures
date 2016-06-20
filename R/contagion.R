@@ -183,8 +183,8 @@ system_stress <- function(s, w, cap = 1){
   c(pmin(cap, s) %*% w)
 }
 
-system_defaults <- function(s, thr = 1){
-  sum(s >= thr)
+system_defaults <- function(s, thr = 1, abs.tol = 1e-12){
+  sum(s > thr - abs.tol)
 }
 
 system_losses   <- function(s, b){
@@ -216,7 +216,8 @@ summary.contagion <- function(object, thr = 1, cap = 1, sims = "all", ...){
   
   # stress
   summary_table$original_stress     <- sapply(simulations, function(x) system_stress(x$s0, w, cap = cap))
-  summary_table$additional_stress   <- sapply(simulations, function(x) system_stress(x$st - x$s0, w, cap = cap))
+  summary_table$additional_stress   <- sapply(simulations, function(x) system_stress(x$st, w, cap = cap)) - 
+    summary_table$original_stress 
   
   # losses
   if (!is.null(b)) {
@@ -227,7 +228,7 @@ summary.contagion <- function(object, thr = 1, cap = 1, sims = "all", ...){
   }
   
   # defaults
-  summary_table$additional_defaults <- sapply(simulations, function(x) system_defaults(x$st, thr = thr))
+  summary_table$additional_defaults <- sapply(simulations, function(x) system_defaults(x$st[x$s0 < thr], thr = thr))
   
   results <- list(info = object$info,
                   summary_table = summary_table)
