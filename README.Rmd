@@ -301,9 +301,12 @@ To be expanded.
 
 #### References
 
-
 [Anand, K., Craig, B. and G. von Peter (2015). Filling in the blanks: network structure and interbank contagion. Quantitative Finance 15:4, 625-636.](http://www.tandfonline.com/doi/full/10.1080/14697688.2014.968195)
 
 [Bardoscia M, Battiston S, Caccioli F, Caldarelli G (2015) DebtRank: A Microscopic Foundation for Shock Propagation. PLoS ONE 10(6): e0130406. doi: 10.1371/journal.pone.0130406](http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0130406)
+
+[Silva, T.C.; Souza, S.R.S.; Tabak, B.M. (2015) Monitoring vulnerability and impact diffusion in financial networks. Working Paper 392, Central Bank of Brazil.](http://www.bcb.gov.br/pec/wps/ingl/wps392.pdf)
+
+[Silva, T.C.; Souza, S.R.S.; Tabak, B.M. (2015) Network structure analysis of the Brazilian interbank market . Working Paper 391, Central Bank of Brazil.](http://www.bcb.gov.br/pec/wps/ingl/wps391.pdf)
 
 [Upper, C. and A. Worm (2004). Estimating bilateral exposures in the german interbank market: Is there a danger of contagion? European Economic Review 48, 827-849.](http://www.sciencedirect.com/science/article/pii/S0014292104000145)

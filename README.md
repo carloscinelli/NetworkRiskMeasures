@@ -276,16 +276,16 @@ summary(contdr)
 #> 
 #> Simulation summary (showing 10 of 125 -- decreasing order of additional stress):
 #>  Scenario Original Stress Additional Stress Original Losses Additional Losses Additional Defaults
-#>       b55          0.1102             0.280            58.4             235.8                  18
-#>       b28          0.0638             0.182            63.5              99.3                   9
-#>       b84          0.0236             0.117             7.6              65.7                   3
-#>       b69          0.0133             0.114            13.0              36.6                   3
-#>       b75          0.0099             0.113             9.6              30.5                   3
-#>       b33          0.0243             0.088            27.4              33.6                   3
-#>      b120          0.0099             0.077             8.4              18.1                   3
-#>       b77          0.0067             0.065             9.4               8.9                   2
-#>       b74          0.0161             0.064            14.4              27.9                   4
-#>      b101          0.0070             0.060             9.3              17.1                   3
+#>       b55          0.1102             0.280            58.4             235.8                  17
+#>       b28          0.0638             0.182            63.5              99.3                   8
+#>       b84          0.0236             0.117             7.6              65.7                   2
+#>       b69          0.0133             0.114            13.0              36.6                   2
+#>       b75          0.0099             0.113             9.6              30.5                   2
+#>       b33          0.0243             0.088            27.4              33.6                   2
+#>      b120          0.0099             0.077             8.4              18.1                   2
+#>       b77          0.0067             0.065             9.4               8.9                   1
+#>       b74          0.0161             0.064            14.4              27.9                   3
+#>      b101          0.0070             0.060             9.3              17.1                   2
 ```
 
 What do these results mean?
@@ -321,16 +321,16 @@ summary(contthr)
 #> 
 #> Simulation summary (showing 10 of 125 -- decreasing order of additional stress):
 #>  Scenario Original Stress Additional Stress Original Losses Additional Losses Additional Defaults
-#>       b55          0.1102             0.273            58.4             221.1                  17
-#>       b28          0.0638             0.167            63.5              88.4                   8
-#>       b84          0.0236             0.098             7.6              62.0                   3
-#>       b69          0.0133             0.096            13.0              34.1                   3
-#>       b75          0.0099             0.095             9.6              28.1                   3
-#>      b120          0.0099             0.075             8.4              17.0                   3
-#>       b27          0.0173             0.059            20.5              18.8                   4
-#>       b74          0.0161             0.056            14.4              26.1                   4
-#>      b101          0.0070             0.052             9.3              15.6                   3
-#>       b80          0.0084             0.051             9.2               7.5                   2
+#>       b55          0.1102             0.273            58.4             221.1                  16
+#>       b28          0.0638             0.167            63.5              88.4                   7
+#>       b84          0.0236             0.098             7.6              62.0                   2
+#>       b69          0.0133             0.096            13.0              34.1                   2
+#>       b75          0.0099             0.095             9.6              28.1                   2
+#>      b120          0.0099             0.075             8.4              17.0                   2
+#>       b27          0.0173             0.059            20.5              18.8                   3
+#>       b74          0.0161             0.056            14.4              26.1                   3
+#>      b101          0.0070             0.052             9.3              15.6                   2
+#>       b80          0.0084             0.051             9.2               7.5                   1
 ```
 
 Let's save the results in our `sim_data` along with the other metrics:
@@ -352,10 +352,10 @@ head(sim_data)
 #> 5   b5 0.65294261   0.9153901 4.446595  8.673730      2  14 6.609864e-05 0.003889006  2.945919    0  0.00000
 #> 6   b6 0.60766835   0.3007373 2.252369  4.708805      2   2 6.556680e-05 0.001567357  1.287698    0  0.00000
 #>       DebtRank      cascade
-#> 1 0.0278774515 0.0187702836
+#> 1 0.0278774471 0.0187702836
 #> 2 0.0015547276 0.0014304155
 #> 3 0.0005985364 0.0005137390
-#> 4 0.0074578827 0.0023841317
+#> 4 0.0074578714 0.0023841317
 #> 5 0.0093804082 0.0076966953
 #> 6 0.0009334068 0.0005486289
 ```
@@ -386,14 +386,14 @@ And the cross-correlations between the metrics:
 ``` r
 cor(rankings[-1])
 #>                DebtRank     cascade    degree     eigen       impd       assets liabilities     buffer
-#> DebtRank     1.00000000  0.93257520 0.3852840 0.4778345 0.60635065 -0.068325015 0.844421223  0.4376177
-#> cascade      0.93257520  1.00000000 0.4070260 0.5430477 0.62448228 -0.010841119 0.858208779  0.3953692
-#> degree       0.38528396  0.40702597 1.0000000 0.5332633 0.52451198  0.415204147 0.399596081  0.2552769
-#> eigen        0.47783446  0.54304771 0.5332633 1.0000000 0.49012583  0.441087558 0.512325653  0.1465438
+#> DebtRank     1.00000000  0.93231850 0.3842379 0.4768787 0.60635065 -0.069485591 0.844166766  0.4373012
+#> cascade      0.93231850  1.00000000 0.4070260 0.5430477 0.62448228 -0.010841119 0.858208779  0.3953692
+#> degree       0.38423792  0.40702597 1.0000000 0.5332633 0.52451198  0.415204147 0.399596081  0.2552769
+#> eigen        0.47687869  0.54304771 0.5332633 1.0000000 0.49012583  0.441087558 0.512325653  0.1465438
 #> impd         0.60635065  0.62448228 0.5245120 0.4901258 1.00000000  0.018459808 0.610921083  0.4816576
-#> assets      -0.06832502 -0.01084112 0.4152041 0.4410876 0.01845981  1.000000000 0.004958525 -0.1198280
-#> liabilities  0.84442122  0.85820878 0.3995961 0.5123257 0.61092108  0.004958525 1.000000000  0.3930261
-#> buffer       0.43761772  0.39536923 0.2552769 0.1465438 0.48165762 -0.119827957 0.393026114  1.0000000
+#> assets      -0.06948559 -0.01084112 0.4152041 0.4410876 0.01845981  1.000000000 0.004958525 -0.1198280
+#> liabilities  0.84416677  0.85820878 0.3995961 0.5123257 0.61092108  0.004958525 1.000000000  0.3930261
+#> buffer       0.43730120  0.39536923 0.2552769 0.1465438 0.48165762 -0.119827957 0.393026114  1.0000000
 ```
 
 #### Simulating arbitrary contagion scenarios
@@ -416,16 +416,16 @@ summary(cont)
 #> 
 #> Simulation summary (showing 10 of 25 -- decreasing order of additional stress):
 #>      Scenario Original Stress Additional Stress Original Losses Additional Losses Additional Defaults
-#>  25 pct shock            0.25              0.31             198               191                  16
-#>  24 pct shock            0.24              0.30             190               185                  15
-#>  23 pct shock            0.23              0.30             182               179                  14
-#>  22 pct shock            0.22              0.30             174               173                  13
-#>  21 pct shock            0.21              0.29             166               167                  12
-#>  20 pct shock            0.20              0.29             158               161                  11
-#>  19 pct shock            0.19              0.29             150               155                  10
-#>  18 pct shock            0.18              0.28             142               149                  10
-#>  17 pct shock            0.17              0.28             134               142                  10
-#>  16 pct shock            0.16              0.27             127               136                  10
+#>  23 pct shock            0.23              0.25             182               179                  14
+#>  22 pct shock            0.22              0.25             174               173                  13
+#>  21 pct shock            0.21              0.25             166               167                  12
+#>  24 pct shock            0.24              0.25             190               185                  15
+#>  20 pct shock            0.20              0.25             158               161                  11
+#>  25 pct shock            0.25              0.25             198               191                  16
+#>  19 pct shock            0.19              0.25             150               155                  10
+#>  18 pct shock            0.18              0.25             142               149                  10
+#>  17 pct shock            0.17              0.24             134               142                  10
+#>  16 pct shock            0.16              0.24             127               136                  10
 ```
 
 ``` r
@@ -445,5 +445,9 @@ To be expanded.
 [Anand, K., Craig, B. and G. von Peter (2015). Filling in the blanks: network structure and interbank contagion. Quantitative Finance 15:4, 625-636.](http://www.tandfonline.com/doi/full/10.1080/14697688.2014.968195)
 
 [Bardoscia M, Battiston S, Caccioli F, Caldarelli G (2015) DebtRank: A Microscopic Foundation for Shock Propagation. PLoS ONE 10(6): e0130406. doi: 10.1371/journal.pone.0130406](http://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0130406)
+
+[Silva, T.C.; Souza, S.R.S.; Tabak, B.M. (2015) Monitoring vulnerability and impact diffusion in financial networks. Working Paper 392, Central Bank of Brazil.](http://www.bcb.gov.br/pec/wps/ingl/wps392.pdf)
+
+[Silva, T.C.; Souza, S.R.S.; Tabak, B.M. (2015) Network structure analysis of the Brazilian interbank market . Working Paper 391, Central Bank of Brazil.](http://www.bcb.gov.br/pec/wps/ingl/wps391.pdf)
 
 [Upper, C. and A. Worm (2004). Estimating bilateral exposures in the german interbank market: Is there a danger of contagion? European Economic Review 48, 827-849.](http://www.sciencedirect.com/science/article/pii/S0014292104000145)
