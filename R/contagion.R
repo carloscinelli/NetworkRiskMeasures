@@ -56,6 +56,7 @@ contagion <- function(exposures,
   
   info <- list(method = method,
                params = list(...))
+  
   # weights
   if (is.null(weights)) {
     weights <- rep(1, nrow(v))
@@ -240,6 +241,7 @@ summary.contagion <- function(object, thr = 1, cap = 1, sims = "all", ...){
 
 
 # vertex_stats 
+##' @export
 ##' @importFrom dplyr bind_rows
 vertex_stats <- function(x, sims = 1:length(x$simulations)){
   vertex_info <- bind_rows(x$simulations[sims], .id = "scenario")
