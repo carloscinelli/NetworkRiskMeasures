@@ -123,6 +123,9 @@ debtrank <- function(single.hit = F){
   general(begin.prop = 0, stop.prop = sh, full.prop = 1)
 }
 
+fbeta <- function(a,b){
+  pt <- pbeta(st, shape1 = a, shape2 = b) - pbeta(stm1, shape1 = a, shape2 = b)
+}
 
 # motores
 

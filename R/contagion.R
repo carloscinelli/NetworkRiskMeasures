@@ -45,6 +45,19 @@ contagion <- function(exposures,
   
   exposure_type <- match.arg(exposure_type)
   
+  # weights
+  if (is.null(weights)) {
+    weights <- rep(1, nrow(v))
+    warning("No weights provided: using equal weights for all vertices.")
+  } 
+  
+  # weights
+  if (missing(buffer)) {
+    buffer <- rep(1, nrow(v))
+    if (exposure_type != "vulnerability") 
+      warning("No buffer provided: using buffer = 1 for all vertices.")
+  } 
+  
   v <- impact_matrix(exposures = exposures,
                      buffer = buffer,
                      exposure_type = exposure_type)
@@ -56,12 +69,6 @@ contagion <- function(exposures,
   
   info <- list(method = method,
                params = list(...))
-  
-  # weights
-  if (is.null(weights)) {
-    weights <- rep(1, nrow(v))
-    warning("No weights provided: using equal weights for all vertices.")
-  } 
   
   weights <- weights/sum(weights)
   names(weights) <- NULL

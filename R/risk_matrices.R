@@ -71,7 +71,7 @@ risk_matrix <- function(exposures,
                         exposure_type = c("assets", "liabilities", "impact", "vulnerability"),
                         returns = c("impact", "vulnerability")){
   
-  if (!is.numeric(buffer)) stop("buffer must be a numeric vector")
+  if (!missing(buffer) && !is.numeric(buffer)) stop("buffer must be a numeric vector")
   if (!is.logical(binary)) stop("binary must be either TRUE or FALSE")
   
   UseMethod("risk_matrix")
