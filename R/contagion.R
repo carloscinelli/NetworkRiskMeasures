@@ -79,6 +79,9 @@
 ##'summary(cont)
 ##'plot(cont)
 ##' @export
+##' @importFrom graphics plot
+##' @importFrom stats runif setNames
+##' @importFrom utils str
 contagion <- function(exposures, 
                       buffer, 
                       shock = "all", 

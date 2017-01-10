@@ -28,7 +28,9 @@ test_that("debtrank",{
   
   cont <- contagion(exposures = md_mat, buffer = sim_data$buffer, shock = shocks, weights = sim_data$weights, method = "debtrank", verbose = F)
   a <- summary(cont) 
+  str(cont)
+  print(cont)
+  print(a)
   expect_equal(a$summary_table[23,4], 181.86206117054)
 }
 )
-
