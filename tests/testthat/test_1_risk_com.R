@@ -29,7 +29,18 @@ test_that("vulnerability and communicability",
                                 binary = FALSE, exposure_type = "liabilities")
             v1[v1 > 1] <- 1
             expect_equal(v1, res)
-
+            
+            v1 <- impact_matrix(exposures = liabilities,
+                                buffer = capital_buffer,
+                                binary = FALSE, exposure_type = "liabilities")
+            
+            v1v <- vulnerability_matrix(exposures = liabilities,
+                                        buffer = capital_buffer,
+                                        binary = FALSE, exposure_type = "liabilities")
+            expect_equal(v1v, t(v1))
+            
+            expect_warning(vulnerability_matrix(unname(liabilities), capital_buffer))
+            
             v2 <- impact_matrix(exposures = assets,
                                 buffer = capital_buffer,
                                 binary = FALSE,
@@ -97,7 +108,16 @@ test_that("vulnerability and communicability",
               ci <- communicability_matrix(vib)
               expect_equal(ci, res2)
             }
-
+            
+            binary <- vulnerability_matrix(exposures = liabilities,
+                                           buffer = capital_buffer,
+                                           binary = TRUE, exposure_type = "liabilities")
+            v1v <- (v1v >=1)*1
+            expect_equal(binary, v1v)
+            expect_error(vulnerability_matrix(exposures = liabilities,
+                                              buffer = "a"))
+            expect_error(vulnerability_matrix(exposures = liabilities,
+                                              buffer = 1, binary = 1))
 
             }
 )

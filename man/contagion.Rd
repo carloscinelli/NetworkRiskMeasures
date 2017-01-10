@@ -8,7 +8,7 @@ contagion(exposures,
           buffer, 
           shock = "all", 
           weights = NULL, 
-          method = "general", 
+          method = c("debtrank", "threshold"), 
           ...,
           exposure_type = c("assets", "liabilities", "impact", "vulnerability"),
           keep.history = FALSE, 
@@ -35,7 +35,9 @@ simulation for the default of each vertex in the network.}
 vector of weights to give some economic significance to the measures, like,
 for instance, the total assets of the nodes.}
 
-\item{method}{the contagion propagation method.}
+\item{method}{the contagion propagation method. Currently, you should use either "debtrank" for the DebtRank propagation method or "threshold" for the tradional default
+cascades. The DebtRank version implemented is the one proposed in Bardoscia et al (2015). 
+If you want to use the old "single-hit" DebtRank of Battiston et al (2012), simply provide the argument \code{single.hit = TRUE}.}
 
 \item{...}{other arguments to be passed to the contagion propagation method.}
 
@@ -57,9 +59,55 @@ the default is \code{FALSE}.}
 
 \item{verbose}{gives verbose output. Default is \code{TRUE}.}
 }
+\value{
+The function returns an object of class \code{"contagion"} with the results of the simulation.
+}
 \description{
 Given a matrix of exposures, a vector of buffers and weights (optional) 
 the functions simulates contagion for all the shock vectors provided. You may
-choose from the implemented propagation contagion method or create you own propagation method.
+choose from the implemented propagation contagion method or create you own propagation method. Details on how to create
+your own method will be provided in a future version.
+}
+\examples{
+# Loads simulated banking data
+data("sim_data")
+head(sim_data)
+
+# seed for reproducibility
+set.seed(15)
+
+# minimum density estimation
+# verbose = F to prevent printing
+md_mat <- matrix_estimation(sim_data$assets, sim_data$liabilities, method = "md", verbose = FALSE)
+
+# rownames and colnames for the matrix
+rownames(md_mat) <- colnames(md_mat) <- sim_data$bank
+
+# DebtRank simulation
+contdr <- contagion(exposures = md_mat, buffer = sim_data$buffer, weights = sim_data$weights, 
+                    shock = "all", method = "debtrank", verbose = FALSE)
+summary(contdr)
+
+plot(contdr)
+
+# Traditional default cascades simulation
+contthr <-  contagion(exposures = md_mat, buffer = sim_data$buffer, weights = sim_data$weights, 
+                      shock = "all", method = "threshold", verbose = FALSE)
+summary(contthr)
+
+# simulating shock scenarios 1\% to 25\% shock in all vertices
+s <- seq(0.01, 0.25, by = 0.01)
+shocks <- lapply(s, function(x) rep(x, nrow(md_mat)))
+names(shocks) <- paste(s*100, "pct shock")
+
+cont <- contagion(exposures = md_mat, buffer = sim_data$buffer, shock = shocks, 
+                 weights = sim_data$weights, method = "debtrank", verbose = FALSE)
+summary(cont)
+plot(cont)
+}
+\references{
+Bardoscia M, Battiston S, Caccioli F, Caldarelli G (2015) DebtRank: A Microscopic Foundation for Shock Propagation. PLoS ONE 10(6): e0130406. doi: 10.1371/journal.pone.0130406
+
+Battiston, S., Puliga, M., Kaushik, R., Tasca, P., and Caldarelli, G. (2012). DebtRank: Too central to fail? Financial networks, the FED and systemic risk. Scientific reports, 2:541.
 }
 

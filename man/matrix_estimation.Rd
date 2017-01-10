@@ -56,6 +56,9 @@ to the prior matrix. See Anand et al. (2015).}
 
 \item{remove.prob}{probability to randomly remove a link during the algorithm. See Anand et al. (2015).}
 }
+\value{
+The functions return the estimated matrix.
+}
 \description{
 Methods for estimating matrix entries from the marginals (row and column sums).
 

@@ -91,17 +91,19 @@ c.Matrix <- function(...) as.vector(...)
 
 # propagation functions ---------------------------------------------------
 
-##' Contagion methods
-##' 
-##' Test.
-##' 
-##' 
-##' @name contagion_methods
-NULL
+# ##' Contagion methods
+# ##' 
+# ##' Currently you should use the general contagion engine. 
+# ##' 
+# ##' 
+# ##' @name contagion_methods
+# NULL
 
 globalVariables(c("spt", "st", "stm1"))
 
 # Generalizes traditional default cascade and debtrank
+
+
 general <- function(begin.prop = 0, stop.prop = 1, full.prop = 1, ...){
   st[st > 1] <- 1
   pt <- st - spt
@@ -122,34 +124,34 @@ debtrank <- function(single.hit = F){
   if (single.hit) sh <- 0
   general(begin.prop = 0, stop.prop = sh, full.prop = 1)
 }
-
-fbeta <- function(a,b){
-  pt <- pbeta(st, shape1 = a, shape2 = b) - pbeta(stm1, shape1 = a, shape2 = b)
-}
-
-# motores
-
-ddr <- function(){
-  pt = st - stm1
-  pt[stm1 >= 1] <- 0
-  return(pt)
-}
-
-dr <- function(){
-  pt = st - stm1
-  pt[stm1 >= 0] <- 0
-  return(pt)
-}
-
-
-traditional <- function(alpha = 1){
-  pt <- rep(0, length(st))
-  pt[st >= alpha & stm1 < 1] <- 1
-  return(pt)
-}
-
-
-traditional <- function(alpha = 1){
-  environment(general) <- environment()
-  general(begin.prop = alpha, full.prop = alpha)
-}
+# 
+# fbeta <- function(a,b){
+#   pt <- pbeta(st, shape1 = a, shape2 = b) - pbeta(stm1, shape1 = a, shape2 = b)
+# }
+# 
+# # motores
+# 
+# ddr <- function(){
+#   pt = st - stm1
+#   pt[stm1 >= 1] <- 0
+#   return(pt)
+# }
+# 
+# dr <- function(){
+#   pt = st - stm1
+#   pt[stm1 >= 0] <- 0
+#   return(pt)
+# }
+# 
+# 
+# traditional <- function(alpha = 1){
+#   pt <- rep(0, length(st))
+#   pt[st >= alpha & stm1 < 1] <- 1
+#   return(pt)
+# }
+# 
+# 
+# traditional <- function(alpha = 1){
+#   environment(general) <- environment()
+#   general(begin.prop = alpha, full.prop = alpha)
+# }

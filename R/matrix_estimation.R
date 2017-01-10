@@ -22,6 +22,10 @@
 ##' @param abs.tol the desired accuracy.
 ##' @param verbose gives verbose output. Default is \code{TRUE}.
 ##' 
+##' @return 
+##' 
+##' The functions return the estimated matrix.
+##' 
 ##' @examples 
 ##' # Example from Anand, Craig and Von Peter (2015, p.628)
 ##' 
