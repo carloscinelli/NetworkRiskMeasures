@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](https://travis-ci.org/carloscinelli/NetworkRiskMeasures.svg?branch=master)](https://travis-ci.org/carloscinelli/NetworkRiskMeasures) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/NetworkRiskMeasures)](https://cran.r-project.org/package=NetworkRiskMeasures) [![Coverage Status](https://img.shields.io/codecov/c/github/carloscinelli/NetworkRiskMeasures/master.svg)](https://codecov.io/github/carloscinelli/NetworkRiskMeasures?branch=master)
+[![Travis-CI Build Status](https://travis-ci.org/carloscinelli/NetworkRiskMeasures.svg?branch=master)](https://travis-ci.org/carloscinelli/NetworkRiskMeasures) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/NetworkRiskMeasures)](https://cran.r-project.org/package=NetworkRiskMeasures) [![Coverage Status](https://img.shields.io/codecov/c/github/carloscinelli/NetworkRiskMeasures/master.svg)](https://codecov.io/github/carloscinelli/NetworkRiskMeasures?branch=master) ![](http://cranlogs.r-pkg.org/badges/sValues)
 
 The Network Risk Measures (`NetworkRiskMeasures`) package implements a set of tools to analyze systemic risk in (financial) networks in a unified framework. We currently have implemented:
 

@@ -8,6 +8,7 @@ output:
 [![Travis-CI Build Status](https://travis-ci.org/carloscinelli/NetworkRiskMeasures.svg?branch=master)](https://travis-ci.org/carloscinelli/NetworkRiskMeasures)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/NetworkRiskMeasures)](https://cran.r-project.org/package=NetworkRiskMeasures) 
 [![Coverage Status](https://img.shields.io/codecov/c/github/carloscinelli/NetworkRiskMeasures/master.svg)](https://codecov.io/github/carloscinelli/NetworkRiskMeasures?branch=master)
+![](http://cranlogs.r-pkg.org/badges/sValues)
 
 ```{r, echo = FALSE}
 options(width = 120)
