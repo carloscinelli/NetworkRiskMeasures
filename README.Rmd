@@ -6,7 +6,7 @@ output:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 [![Travis-CI Build Status](https://travis-ci.org/carloscinelli/NetworkRiskMeasures.svg?branch=master)](https://travis-ci.org/carloscinelli/NetworkRiskMeasures)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/NA/NA?branch=master&svg=true)](https://ci.appveyor.com/project/carloscinelli/NetworkRiskMeasures)
+[![Build status](https://ci.appveyor.com/api/projects/status/lgdhonejqpca0o09/branch/master?svg=true)](https://ci.appveyor.com/project/carloscinelli/networkriskmeasures/branch/master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/NetworkRiskMeasures)](https://cran.r-project.org/package=NetworkRiskMeasures) 
 [![Coverage Status](https://img.shields.io/codecov/c/github/carloscinelli/NetworkRiskMeasures/master.svg)](https://codecov.io/github/carloscinelli/NetworkRiskMeasures?branch=master)
 ![](http://cranlogs.r-pkg.org/badges/NetworkRiskMeasures)
