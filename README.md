@@ -149,7 +149,8 @@ We intend to implement other estimation methods used in the literature. For an o
 <a href="https://vimeo.com/145290048">The missing links: a global study on uncovering financial network structure from partial data</a> from <a href="https://vimeo.com/cambridgejbs">Cambridge Judge Business School</a> on <a href="https://vimeo.com">Vimeo</a>.
 </p>
 <!-- </center> -->
-<!-- </br> -->
+</br>
+
 ### Measuring risk: findind systemically important institutions and simulating scenarios
 
 Two important questions:
