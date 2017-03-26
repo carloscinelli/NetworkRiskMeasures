@@ -1,11 +1,11 @@
 ## Fixes
 
-Fixed misspeling of "Networks" on description (it was Neworks before)
+Fix plot directory of README
 
 ## Test environments
 
 * ubuntu 12.04 (on travis-ci, devel, release, oldrel)
-* Windows (on R-hub, devel and release)
+* Windows (on R-hub and winbuilder, devel and release)
 * local OS X install
 
 ## R CMD check results
