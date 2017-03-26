@@ -42,4 +42,3 @@ sim_data <- data.frame(bank  = paste0("b", 1:125),
  
 }
 \keyword{dataset}
-

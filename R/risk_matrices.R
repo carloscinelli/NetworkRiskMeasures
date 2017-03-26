@@ -71,8 +71,25 @@ risk_matrix <- function(exposures,
                         exposure_type = c("assets", "liabilities", "impact", "vulnerability"),
                         returns = c("impact", "vulnerability")){
   
-  if (!missing(buffer) && !is.numeric(buffer)) stop("buffer must be a numeric vector")
+  if (!missing(buffer)) { 
+    if (!is.numeric(buffer))
+      stop("buffer must be a numeric vector")
+    
+    nas <- is.na(buffer)
+    if (any(nas)) 
+      stop("buffer cannot be NA: the following positions are NA: ", paste(which(nas), collapse = ", "), " of buffer are NA")
+    
+    zeros <- (abs(buffer) < sqrt(.Machine$double.eps))
+    if (any(zeros, na.rm = TRUE)) 
+      stop("buffer cannot be zero: the following positions are equal to zero (up to floating point precision): ", 
+           paste(which(zeros), collapse = ", "))
+    
+    
+  }
+  
+  
   if (!is.logical(binary)) stop("binary must be either TRUE or FALSE")
+  
   
   UseMethod("risk_matrix")
   
@@ -104,7 +121,11 @@ risk_matrix.default <- function(exposures,
                                 exposure_type = c("assets", "liabilities", "impact", "vulnerability"),
                                 returns = c("impact", "vulnerability")) {
   
-  
+  if (!missing(buffer)) {
+    if (length(buffer) != nrow(exposures))
+      stop("buffer must be of the same length as the number of vertices (number of rows of exposure matrix)", 
+           "\nlength of buffer is ", length(buffer), " and number of vertices is ", nrow(exposures))
+  }
   exposure_type <- match.arg(exposure_type)
   returns       <- match.arg(returns)
   

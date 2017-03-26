@@ -2,7 +2,9 @@
 % Please edit documentation in R/matrix_estimation.R
 \name{matrix_estimation}
 \alias{matrix_estimation}
+\alias{matrix_estimation}
 \alias{max_ent}
+\alias{matrix_estimation}
 \alias{min_dens}
 \title{Matrix Estimation}
 \usage{
@@ -95,4 +97,3 @@ Upper, C. and A. Worm (2004). Estimating bilateral exposures in the german inter
  network structure and interbank contagion. 
  Quantitative Finance 15:4, 625-636.
 }
-

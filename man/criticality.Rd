@@ -52,4 +52,3 @@ buffer <- c(a = 2, b = 5, c = 2)
 criticality(assets_matrix, buffer)
 
 }
-

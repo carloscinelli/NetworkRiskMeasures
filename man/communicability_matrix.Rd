@@ -49,4 +49,3 @@ communicability_matrix(v)
 Estrada, E. Hatano, N. (2008). Communicability in complex networks.
 Physical Review E, 77:036111.
 }
-

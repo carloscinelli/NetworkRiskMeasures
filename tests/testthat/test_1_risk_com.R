@@ -30,6 +30,29 @@ test_that("vulnerability and communicability",
             v1[v1 > 1] <- 1
             expect_equal(v1, res)
             
+            # zero buffer, error
+            capital_buffer2 <- c(A = 0, B = 2, C = 0, E = 1, F = 10, D = 4)
+            
+            expect_error(v1zero <- impact_matrix(exposures = liabilities,
+                                    buffer = capital_buffer2,
+                                    binary = FALSE, exposure_type = "liabilities"))
+            
+            # na buffer, error
+            capital_buffer2 <- c(A = NA, B = 2, C = NA, E = 1, F = 10, D = 4)
+            
+            expect_error(v1zero <- impact_matrix(exposures = liabilities,
+                                                 buffer = capital_buffer2,
+                                                 binary = FALSE, exposure_type = "liabilities"))
+            
+            # wrong size buffer, error
+            capital_buffer2 <- c(A = 3, B = 2, C = 3, E = 1)
+            
+            expect_error(v1zero <- impact_matrix(exposures = liabilities,
+                                                 buffer = capital_buffer2,
+                                                 binary = FALSE, exposure_type = "liabilities"))
+            
+            
+            
             v1 <- impact_matrix(exposures = liabilities,
                                 buffer = capital_buffer,
                                 binary = FALSE, exposure_type = "liabilities")

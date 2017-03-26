@@ -110,4 +110,3 @@ Bardoscia M, Battiston S, Caccioli F, Caldarelli G (2015) DebtRank: A Microscopi
 
 Battiston, S., Puliga, M., Kaushik, R., Tasca, P., and Caldarelli, G. (2012). DebtRank: Too central to fail? Financial networks, the FED and systemic risk. Scientific reports, 2:541.
 }
-
