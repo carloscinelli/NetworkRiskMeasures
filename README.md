@@ -36,6 +36,7 @@ Many regulators have data on total interbank exposures but do not observe the **
 
 <center>
 ![](tools/observable.png)
+
 </center>
 We know how much each bank has in the interbank market in the form of assets and liabilities (row and column sums)--but we do not know how each bank is related to each other. In those cases, if one wants to run contagion simulations or assess other risk measures, it is necessary to ***estimate*** the interbank network.
 

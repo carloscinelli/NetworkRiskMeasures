@@ -53,7 +53,10 @@ Many regulators have data on total interbank exposures but do not observe the **
 
 
 <center>
+
 ![](tools/observable.png)
+
+
 </center>
 
 
@@ -104,8 +107,14 @@ MD
 
 We intend to implement other estimation methods used in the literature. For an overview of current proposed methods and how well they fit known networks, you may watch Anand's presentation below:
 
-<center><iframe src="https://player.vimeo.com/video/145290048" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-<p><a href="https://vimeo.com/145290048">The missing links: a global study on uncovering financial network structure from partial data</a> from <a href="https://vimeo.com/cambridgejbs">Cambridge Judge Business School</a> on <a href="https://vimeo.com">Vimeo</a>.</p></center>
+<center>
+
+<iframe src="https://player.vimeo.com/video/145290048" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<p><a href="https://vimeo.com/145290048">The missing links: a global study on uncovering financial network structure from partial data</a> from <a href="https://vimeo.com/cambridgejbs">Cambridge Judge Business School</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+</center>
+
+
 
 ###  Measuring risk: findind systemically important institutions and simulating scenarios
 
