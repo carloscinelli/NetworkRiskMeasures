@@ -10,7 +10,11 @@ The Network Risk Measures (`NetworkRiskMeasures`) package implements a set of to
 CRAN
 ----
 
-The package will soon be on CRAN. We are still implementing other methods, improving the unit testing, the documentation and working on the API.
+To install the CRAN version run:
+
+``` r
+install.packages("NetworkRiskMeasures")
+```
 
 How to install the development version from GitHub
 --------------------------------------------------
@@ -217,7 +221,7 @@ ggplot(netdf, aes(x = x, y = y, xend = xend, yend = yend)) +
   theme_blank()
 ```
 
-<img src="tools/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+<img src="tools/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 As one can see, the resulting network is sparse and disassortative:
 
@@ -302,7 +306,7 @@ Take, for instance, the results for bank `b55`. It represents 11% of our simulat
 plot(contdr)
 ```
 
-<img src="tools/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="tools/unnamed-chunk-16-1.png" style="display: block; margin: auto;" />
 
 You don't need to interpret these results too literally. You could use the additional stress indicator (the DebtRank) as a measure of the systemic importance of the institution:
 
@@ -438,7 +442,7 @@ summary(cont)
 plot(cont, size = 2.2)
 ```
 
-![](tools/unnamed-chunk-23-1.png)
+![](tools/unnamed-chunk-24-1.png)
 
 In this example, a 5% shock in all banks causes an additional stress of 20% in the system, an amplification of 4 times the initial shock.
 
