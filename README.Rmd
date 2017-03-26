@@ -15,7 +15,7 @@ options(width = 120)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "tools/"
 )
 
 ```
@@ -53,7 +53,7 @@ Many regulators have data on total interbank exposures but do not observe the **
 
 
 <center>
-![](README-observable.png)
+![](tools/observable.png)
 </center>
 
 
