@@ -1,7 +1,7 @@
 Package: NetworkRiskMeasures
 Type: Package
 Title: Risk Measures for (Financial) Networks
-Version: 0.1.2
+Version: 0.1.3.9000
 Author: Carlos Cinelli <carloscinelli@hotmail.com>, Thiago Cristiano Silva
     <thiagochris@gmail.com>
 Maintainer: Carlos Cinelli <carloscinelli@hotmail.com>
@@ -15,4 +15,6 @@ Imports:
     expm,
     ggplot2,
     dplyr
+URL: https://github.com/carloscinelli/NetworkRiskMeasures
+BugReports: https://github.com/carloscinelli/NetworkRiskMeasures/issues
 RoxygenNote: 6.0.1
