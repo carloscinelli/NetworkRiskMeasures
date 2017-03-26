@@ -34,13 +34,12 @@ Example usage
 
 Many regulators have data on total interbank exposures but do not observe the ***network*** of bilateral exposures. That is, they only know the marginals of the interbank adjacency matrix. Consider the example below with 7 fictitious banks -- banks A through G (Anand et al, 2015, p.628):
 
-</br>
-<center>
+<!-- </br> -->
+<!-- <center> -->
 ![](tools/observable.png)
 
-</center>
-</br>
-
+<!-- </center> -->
+<!-- </br> -->
 We know how much each bank has in the interbank market in the form of assets and liabilities (row and column sums)--but we do not know how each bank is related to each other. In those cases, if one wants to run contagion simulations or assess other risk measures, it is necessary to ***estimate*** the interbank network.
 
 Two popular methods for this task are the maximum entropy (Upper, 2004) and minimum density estimation (Anand et al, 2015). These two methods are already implemented on the package. So, let's build the interbank assets and liabilities vectors of our example (which are the row and column sums of the interbank network) to see how the estimation function works:
@@ -142,16 +141,15 @@ MD
 
 We intend to implement other estimation methods used in the literature. For an overview of current proposed methods and how well they fit known networks, you may watch Anand's presentation below:
 
-</br>
-<center>
+<!-- </br> -->
+<!-- <center> -->
 <iframe src="https://player.vimeo.com/video/145290048" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
 </iframe>
 <p>
 <a href="https://vimeo.com/145290048">The missing links: a global study on uncovering financial network structure from partial data</a> from <a href="https://vimeo.com/cambridgejbs">Cambridge Judge Business School</a> on <a href="https://vimeo.com">Vimeo</a>.
 </p>
-</center>
-</br>
-
+<!-- </center> -->
+<!-- </br> -->
 ### Measuring risk: findind systemically important institutions and simulating scenarios
 
 Two important questions:
