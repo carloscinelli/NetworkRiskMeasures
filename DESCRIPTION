@@ -8,7 +8,10 @@ Maintainer: Carlos Cinelli <carloscinelli@hotmail.com>
 Description: Implements some risk measures for (financial) networks, such as DebtRank, Impact Susceptibility, Impact Diffusion and Impact Fluidity. 
 License: GPL-3
 LazyData: TRUE
-Suggests: testthat, igraph
+Suggests: 
+    testthat,
+    igraph,
+    covr
 Depends:
     Matrix
 Imports:
