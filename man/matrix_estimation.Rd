@@ -2,20 +2,36 @@
 % Please edit documentation in R/matrix_estimation.R
 \name{matrix_estimation}
 \alias{matrix_estimation}
-\alias{matrix_estimation}
 \alias{max_ent}
-\alias{matrix_estimation}
 \alias{min_dens}
 \title{Matrix Estimation}
 \usage{
-matrix_estimation(rowsums, colsums, method = c("me", "md"), ...,
-  max.it = 1e+05, abs.tol = 0.001, verbose = TRUE)
+matrix_estimation(
+  rowsums,
+  colsums,
+  method = c("me", "md"),
+  ...,
+  max.it = 1e+05,
+  abs.tol = 0.001,
+  verbose = TRUE
+)
 
 max_ent(rowsums, colsums, max.it = 1e+05, abs.tol = 0.001, verbose = TRUE)
 
-min_dens(rowsums, colsums, c = 1, lambda = 1, k = 100,
-  alpha = 1/sum(rowsums), delta = 1/sum(rowsums), theta = 1,
-  remove.prob = 0.01, max.it = 1e+05, abs.tol = 0.001, verbose = TRUE)
+min_dens(
+  rowsums,
+  colsums,
+  c = 1,
+  lambda = 1,
+  k = 100,
+  alpha = 1/sum(rowsums),
+  delta = 1/sum(rowsums),
+  theta = 1,
+  remove.prob = 0.01,
+  max.it = 1e+05,
+  abs.tol = 0.001,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{rowsums}{a numeric vector with the row sums.}

@@ -304,7 +304,7 @@ impact_diffusion <- function(exposures,
   results <- data.frame(vertex = rownames(v),
                         start,
                         intermediate,
-                        total)
+                        total, stringsAsFactors = FALSE)
   
   return(results)
 }

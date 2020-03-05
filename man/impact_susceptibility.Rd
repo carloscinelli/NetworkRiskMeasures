@@ -2,23 +2,39 @@
 % Please edit documentation in R/communicability_measures.R
 \name{impact_susceptibility}
 \alias{impact_susceptibility}
-\alias{impact_susceptibility}
 \alias{impact_fluidity}
-\alias{impact_susceptibility}
 \alias{impact_diffusion}
 \title{Impact Susceptibility, Fluidity and Diffusion}
 \usage{
-impact_susceptibility(exposures, buffer, weights = NULL, terms = Inf,
-  sparse = TRUE, binary = TRUE, exposure_type = c("assets", "liabilities",
-  "impact", "vulnerability"))
+impact_susceptibility(
+  exposures,
+  buffer,
+  weights = NULL,
+  terms = Inf,
+  sparse = TRUE,
+  binary = TRUE,
+  exposure_type = c("assets", "liabilities", "impact", "vulnerability")
+)
 
-impact_fluidity(exposures, buffer, weights = NULL, terms = Inf,
-  sparse = TRUE, binary = TRUE, exposure_type = c("assets", "liabilities",
-  "impact", "vulnerability"))
+impact_fluidity(
+  exposures,
+  buffer,
+  weights = NULL,
+  terms = Inf,
+  sparse = TRUE,
+  binary = TRUE,
+  exposure_type = c("assets", "liabilities", "impact", "vulnerability")
+)
 
-impact_diffusion(exposures, buffer, weights = NULL, terms = Inf,
-  sparse = TRUE, binary = TRUE, exposure_type = c("assets", "liabilities",
-  "impact", "vulnerability"))
+impact_diffusion(
+  exposures,
+  buffer,
+  weights = NULL,
+  terms = Inf,
+  sparse = TRUE,
+  binary = TRUE,
+  exposure_type = c("assets", "liabilities", "impact", "vulnerability")
+)
 }
 \arguments{
 \item{exposures}{an adjacency \code{\link{matrix}}, (sparse) \code{\link{Matrix}} or an \code{\link[igraph]{igraph}}

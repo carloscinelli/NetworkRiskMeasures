@@ -2,21 +2,31 @@
 % Please edit documentation in R/risk_matrices.R
 \name{risk_matrix}
 \alias{risk_matrix}
-\alias{risk_matrix}
 \alias{vulnerability_matrix}
-\alias{risk_matrix}
 \alias{impact_matrix}
 \title{Computes the (binary) impact or vulnerability matrices}
 \usage{
-risk_matrix(exposures, buffer, binary = FALSE, exposure_type = c("assets",
-  "liabilities", "impact", "vulnerability"), returns = c("impact",
-  "vulnerability"))
+risk_matrix(
+  exposures,
+  buffer,
+  binary = FALSE,
+  exposure_type = c("assets", "liabilities", "impact", "vulnerability"),
+  returns = c("impact", "vulnerability")
+)
 
-vulnerability_matrix(exposures, buffer, binary = FALSE,
-  exposure_type = c("assets", "liabilities", "impact", "vulnerability"))
+vulnerability_matrix(
+  exposures,
+  buffer,
+  binary = FALSE,
+  exposure_type = c("assets", "liabilities", "impact", "vulnerability")
+)
 
-impact_matrix(exposures, buffer, binary = FALSE, exposure_type = c("assets",
-  "liabilities", "impact", "vulnerability"))
+impact_matrix(
+  exposures,
+  buffer,
+  binary = FALSE,
+  exposure_type = c("assets", "liabilities", "impact", "vulnerability")
+)
 }
 \arguments{
 \item{exposures}{an adjacency \code{\link{matrix}}, (sparse) \code{\link{Matrix}} or an \code{\link[igraph]{igraph}}
@@ -65,7 +75,7 @@ a network of bilateral exposures and a vector of capital buffers.
 The impact matrix represents how much a vertex impacts the capital buffer of another vertex
 when it defaults.
 
-The vulnerability matrix  is just the transpose of the impact matrix. It represents how much a vertex is impacted 
+ The vulnerability matrix  is just the transpose of the impact matrix. It represents how much a vertex is impacted 
  by the default of another vertex.
 }
 \examples{

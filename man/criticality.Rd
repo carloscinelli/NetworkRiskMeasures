@@ -4,8 +4,12 @@
 \alias{criticality}
 \title{Criticality of the vertices}
 \usage{
-criticality(exposures, buffer, binary = FALSE, exposure_type = c("assets",
-  "liabilities", "impact", "vulnerability"))
+criticality(
+  exposures,
+  buffer,
+  binary = FALSE,
+  exposure_type = c("assets", "liabilities", "impact", "vulnerability")
+)
 }
 \arguments{
 \item{exposures}{an adjacency \code{\link{matrix}}, (sparse) \code{\link{Matrix}} or an \code{\link[igraph]{igraph}}

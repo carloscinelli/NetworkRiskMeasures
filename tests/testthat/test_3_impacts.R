@@ -18,12 +18,12 @@ test_that("Simple Example",
             imf <- impact_fluidity(assets_matrix, buffer)
             expect_equal(imf, 0.75)
             
-            check_imd <- structure(list(vertex = structure(1:3, .Label = c("a", "b", "c"), class = "factor"), 
+            check_imd <- structure(list(vertex = c("a", "b", "c"), 
                                         start = c(1.25, 1, 0), 
                                         intermediate = c(0, 0.5, 0), 
                                         total = c(1.25, 1.5, 0)), 
-                                   .Names = c("vertex", "start", "intermediate", "total"), 
-                                   row.names = c(NA, -3L), class = "data.frame")
+                                   class = "data.frame", 
+                                   row.names = c(NA, -3L))
             
             imd <- impact_diffusion(assets_matrix, buffer)
             expect_equal(imd, check_imd)
