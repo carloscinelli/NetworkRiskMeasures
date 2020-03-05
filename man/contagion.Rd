@@ -35,7 +35,7 @@ simulation for the default of each vertex in the network.}
 vector of weights to give some economic significance to the measures, like,
 for instance, the total assets of the nodes.}
 
-\item{method}{the contagion propagation method. Currently, you should use either "debtrank" for the DebtRank propagation method or "threshold" for the tradional default
+\item{method}{the contagion propagation method. Currently, you should use either "debtrank" for the DebtRank propagation method or "threshold" for the traditional default
 cascades. The DebtRank version implemented is the one proposed in Bardoscia et al (2015). 
 If you want to use the old "single-hit" DebtRank of Battiston et al (2012), simply provide the argument \code{single.hit = TRUE}.}
 

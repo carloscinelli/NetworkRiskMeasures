@@ -80,7 +80,7 @@ L <- c(a = 4, b = 5, c = 5, d = 0, e = 0, f = 2, g = 4)
 A <- c(a = 7, b = 5, c = 3, d = 1, e = 3, f = 0, g = 1)
 ```
 
-For the maximum entropy estimation we can use the `matrix_estimation()` function by providing the row (assets) sums, column (liabilites) sums and the parameter `method = "me"`. The maximum entropy estimate of the interbank network assumes that each bank tries to *diversify* its exposures as evenly as possible, given the restrictions.  
+For the maximum entropy estimation we can use the `matrix_estimation()` function by providing the row (assets) sums, column (liabilities) sums and the parameter `method = "me"`. The maximum entropy estimate of the interbank network assumes that each bank tries to *diversify* its exposures as evenly as possible, given the restrictions.  
 
 ```{r}
 # Loads the package
@@ -123,7 +123,7 @@ We intend to implement other estimation methods used in the literature. For an o
 </br>
 
 
-###  Measuring risk: findind systemically important institutions and simulating scenarios
+###  Measuring risk: finding systemically important institutions and simulating scenarios
 
 Two important questions:
  
@@ -155,7 +155,7 @@ md_mat <- matrix_estimation(sim_data$assets, sim_data$liabilities, method = "md"
 rownames(md_mat) <- colnames(md_mat) <- sim_data$bank
 ```
 
-Once we have our network, we can visualise it either using `igraph` or `ggplot2` along with the `ggnetwork` package. Below we give an example with `ggplot2` -- it's useful to remember that we have an *assets matrix*, so $a \rightarrow b$ means that node $a$ has an asset with node $b$:
+Once we have our network, we can visualize it either using `igraph` or `ggplot2` along with the `ggnetwork` package. Below we give an example with `ggplot2` -- it's useful to remember that we have an *assets matrix*, so $a \rightarrow b$ means that node $a$ has an asset with node $b$:
 
 ```{r, warning = FALSE, message=FALSE, fig.align='center'}
 library(ggplot2)
@@ -240,7 +240,7 @@ summary(contdr)
 
 What do these results mean? 
 
-Take, for instance, the results for bank `b55`. It represents 11% of our simulated financial system. However, if we consider a linear shock propagation, its default causes an additional stress of 28% of the system, with additional losses of $235.8 billion and the default of 18 other institutions. Or take the results for `b69` --- although it represents only 1.3% of the system, its default casuses an additional stress of almost ten times its size.
+Take, for instance, the results for bank `b55`. It represents 11% of our simulated financial system. However, if we consider a linear shock propagation, its default causes an additional stress of 28% of the system, with additional losses of $235.8 billion and the default of 18 other institutions. Or take the results for `b69` --- although it represents only 1.3% of the system, its default causes an additional stress of almost ten times its size.
 
 ```{r, fig.align='center'}
 plot(contdr)
@@ -293,7 +293,7 @@ cor(rankings[-1])
 
 #### Simulating arbitrary contagion scenarios
 
-The `contagion()` function is flexible and you can simulate arbitrary scenarios with it. For example, how would simultaneous stress shocks of 1% up to 25% in all banks affect the system? To do that, just creat a list with the shock vectors and pass it to `contagion()`.
+The `contagion()` function is flexible and you can simulate arbitrary scenarios with it. For example, how would simultaneous stress shocks of 1% up to 25% in all banks affect the system? To do that, just create a list with the shock vectors and pass it to `contagion()`.
 
 ```{r}
 s <- seq(0.01, 0.25, by = 0.01)
@@ -327,4 +327,4 @@ To be expanded.
 
 [Silva, T.C.; Souza, S.R.S.; Tabak, B.M. (2015) Network structure analysis of the Brazilian interbank market . Working Paper 391, Central Bank of Brazil.](http://www.bcb.gov.br/pec/wps/ingl/wps391.pdf)
 
-[Upper, C. and A. Worm (2004). Estimating bilateral exposures in the german interbank market: Is there a danger of contagion? European Economic Review 48, 827-849.](http://www.sciencedirect.com/science/article/pii/S0014292104000145)
+[Upper, C. and A. Worm (2004). Estimating bilateral exposures in the German interbank market: Is there a danger of contagion? European Economic Review 48, 827-849.](http://www.sciencedirect.com/science/article/pii/S0014292104000145)

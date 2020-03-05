@@ -54,13 +54,13 @@ See Anand et al. (2015).}
 
 \item{lambda}{you should use \code{lamda} 
 together with \code{k}. For the first \code{k} rounds of 
-the algorithm, the function will alocate a fraction \code{lambda} of the total,
+the algorithm, the function will allocate a fraction \code{lambda} of the total,
 thus obtaining a "low density" solution, instead of a "minimum density" solution.
 See Anand et al. (2015).}
 
 \item{k}{you should use \code{lamda} 
 together with \code{k}. For the first \code{k} rounds of 
-the algorithm, the function will alocate a fraction \code{lambda} of the total,
+the algorithm, the function will allocate a fraction \code{lambda} of the total,
 thus obtaining a "low density" solution, instead of a "minimum density" solution.
 See Anand et al. (2015).}
 
@@ -106,7 +106,7 @@ MD <- matrix_estimation(A, L, method = "md")
 
 }
 \references{
-Upper, C. and A. Worm (2004). Estimating bilateral exposures in the german interbank market:
+Upper, C. and A. Worm (2004). Estimating bilateral exposures in the German interbank market:
  Is there a danger of contagion? European Economic Review 48, 827-849.
 
  Anand, K., Craig, B. and G. von Peter (2015). Filling in the blanks:

@@ -26,7 +26,7 @@
 ##' @inheritParams impact_susceptibility
 ##' @param shock a list with the shock vectors. If \code{"all"} (the default) the function will run a 
 ##' simulation for the default of each vertex in the network.
-##' @param method the contagion propagation method. Currently, you should use either "debtrank" for the DebtRank propagation method or "threshold" for the tradional default
+##' @param method the contagion propagation method. Currently, you should use either "debtrank" for the DebtRank propagation method or "threshold" for the traditional default
 ##' cascades. The DebtRank version implemented is the one proposed in Bardoscia et al (2015). 
 ##' If you want to use the old "single-hit" DebtRank of Battiston et al (2012), simply provide the argument \code{single.hit = TRUE}.
 ##' @param ... other arguments to be passed to the contagion propagation method.

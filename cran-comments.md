@@ -1,6 +1,6 @@
 ## Fixes
 
-Fix plot directory of README
+Fix stringAsFactors for r-devel.
 
 ## Test environments
 
