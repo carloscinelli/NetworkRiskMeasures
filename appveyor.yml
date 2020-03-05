@@ -10,28 +10,17 @@ init:
 install:
   ps: Bootstrap
 
-# Adapt as necessary starting from here
+cache:
+  - C:\RLibrary
 
 environment:
-  global:
-    WARNINGS_ARE_ERRORS: 1
+  NOT_CRAN: true
+  # env vars that may need to be set, at least temporarily, from time to time
+  # see https://github.com/krlmlr/r-appveyor#readme for details
+  # USE_RTOOLS: true
+  # R_REMOTES_STANDALONE: true
 
-  matrix:
-  - R_VERSION: devel
-    GCC_PATH: mingw_32
-
-  - R_VERSION: devel
-    R_ARCH: x64
-    GCC_PATH: mingw_64
-
-  - R_VERSION: release
-    R_ARCH: x64
-
-  - R_VERSION: stable
-
-  - R_VERSION: patched
-
-  - R_VERSION: oldrel
+# Adapt as necessary starting from here
 
 build_script:
   - travis-tool.sh install_deps
